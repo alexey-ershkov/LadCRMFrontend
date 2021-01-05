@@ -1,0 +1,43 @@
+@import "./src/scss/vars";
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  padding: 3vh;
+}
+
+.search {
+  width: 70%;
+  height: 6vh;
+  border-radius: 10px;
+  border: 2px solid $accent-color;
+  outline: none;
+}
+
+.addClientButton {
+  width: 20%;
+  height: 6vh;
+}
+
+@media screen and (max-width: 649px){
+  .searchBar {
+    flex-direction: column-reverse;
+    height: 20vh;
+    padding: 1vh;
+  }
+
+  .search {
+    width: 90%;
+    height: 6vh;
+    margin: 1vh;
+  }
+
+  .addClientButton {
+    width: 90%;
+    height: 6vh;
+    margin: 1vh;
+  }
+
+}
