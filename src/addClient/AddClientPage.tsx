@@ -23,18 +23,6 @@ function AddClientPage(): JSX.Element {
 
     return (<div className={'clientFormContainer'}>
         <form id={'addClientForm'} className={'form addClientForm'} onSubmit={handleSubmit}>
-
-            <div className={`inputSection inputSectionAddClient`}>
-                <label className={`label addClientLabel`} htmlFor={'name'}>
-                    {'Имя'}
-                </label>
-                <input className={`input addClientInput`}
-                       name={'name'}
-                       id={'name'}
-                       type={'text'}
-                       placeholder={'Введите имя'}
-                       required onChange={handleInputChange}/>
-            </div>
             <div className={`inputSection inputSectionAddClient`}>
                 <label className={`label addClientLabel`} htmlFor={'surname'}>
                     {'Фамилия'}
@@ -44,6 +32,17 @@ function AddClientPage(): JSX.Element {
                        id={'surname'}
                        type={'text'}
                        placeholder={'Введите фамилию'}
+                       required onChange={handleInputChange}/>
+            </div>
+            <div className={`inputSection inputSectionAddClient`}>
+                <label className={`label addClientLabel`} htmlFor={'name'}>
+                    {'Имя'}
+                </label>
+                <input className={`input addClientInput`}
+                       name={'name'}
+                       id={'name'}
+                       type={'text'}
+                       placeholder={'Введите имя'}
                        required onChange={handleInputChange}/>
             </div>
             <div className={`inputSection inputSectionAddClient`}>
