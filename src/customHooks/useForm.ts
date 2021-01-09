@@ -1,16 +1,16 @@
-import {useState} from "react";
+import {ChangeEvent, FormEvent, useState} from "react";
 
 function useForm(callback: Function) {
     const [inputs, setInputs] = useState({});
 
-    const handleSubmit = (event: Event) => {
+    const handleSubmit = (event: FormEvent) => {
         if (event) {
             event.preventDefault()
         }
         callback();
     }
 
-    const handleInputChange = (event: Event) => {
+    const handleInputChange = (event: ChangeEvent) => {
         if (event.target) {
             const {name, value} = event.target as HTMLInputElement;
             setInputs(inputs => ({...inputs, [name]: value}));
