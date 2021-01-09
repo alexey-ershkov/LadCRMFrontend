@@ -14,7 +14,7 @@ function App() {
                     <Route path={'/'} exact>
                         <MainPage/>
                     </Route>
-                    <Route path={'addClient'}>
+                    <Route path={'/addClient'}>
                         <AddClientPage/>
                     </Route>
                 </Switch>

@@ -1,0 +1,27 @@
+@import "vars";
+
+.inputSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.label {
+  color: $accent-color;
+  font-size: 3vh;
+  display: flex;
+  align-items: flex-start;
+
+  width: 100%;
+  margin-bottom: 0.5vh;
+}
+
+.input {
+  height: 4vh;
+  width: 100%;
+}
+
+.form {
+
+}

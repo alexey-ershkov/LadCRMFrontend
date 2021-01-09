@@ -1,13 +1,14 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
-// import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faBars, faTimes} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import './Navbar.scss';
 
 function Navbar(): JSX.Element {
     const [mobileIsOpen, handleMobileButtonClick] = useState(false)
 
 
-    let button = !mobileIsOpen ? 'Open' : 'Close';
+    let button = !mobileIsOpen ?  <FontAwesomeIcon icon={faBars}/> : <FontAwesomeIcon icon={faTimes}/>;
     let visibleClass = mobileIsOpen ? 'visible' : 'hidden';
     let navbarActiveClass = mobileIsOpen ? 'active' : ''
     let handleButtonClick = () => handleMobileButtonClick(!mobileIsOpen)
@@ -23,7 +24,6 @@ function Navbar(): JSX.Element {
             <div className={'MenuButton'} onClick={() => handleMobileButtonClick(!mobileIsOpen)}>
                 {button}
             </div>
-            {/*<FontAwesomeIcon icon={'sliders-h'}/>*/}
         </div>
     );
 }
