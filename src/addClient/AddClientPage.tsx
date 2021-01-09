@@ -13,14 +13,16 @@ const today = new Date().toISOString().split("T")[0];
 function AddClientPage(): JSX.Element {
 
     const handleConfirm = () => {
-        saveClient(addUserModel)
+        let form = document.getElementById('addClientForm') as HTMLFormElement;
+        form.reset();
+        saveClient(addUserModel);
     }
 
     let {inputs, handleSubmit, handleInputChange} = useForm(handleConfirm)
     let addUserModel = inputs as Client
 
     return (<div className={'clientFormContainer'}>
-        <form className={'form addClientForm'} onSubmit={handleSubmit}>
+        <form id={'addClientForm'} className={'form addClientForm'} onSubmit={handleSubmit}>
 
             <div className={`inputSection inputSectionAddClient`}>
                 <label className={`label addClientLabel`} htmlFor={'name'}>

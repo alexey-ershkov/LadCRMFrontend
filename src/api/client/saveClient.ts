@@ -2,6 +2,7 @@ import Client from "../../models/client";
 import consts from '../../consts'
 
 export default async function saveClient(client: Client) {
+    console.log(client)
     fetch(`${consts.BASE_URL}/addClient`, {
         method: 'POST',
         headers: {
@@ -13,4 +14,7 @@ export default async function saveClient(client: Client) {
             window.location.href = '/'
         }
     })
+        .catch(err => {
+            alert(err)
+        })
 }

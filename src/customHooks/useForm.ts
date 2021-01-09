@@ -7,6 +7,7 @@ function useForm(callback: Function) {
         if (event) {
             event.preventDefault()
         }
+        setInputs({})
         callback();
     }
 
