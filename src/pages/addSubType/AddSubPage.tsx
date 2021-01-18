@@ -4,7 +4,7 @@ import '../../scss/form.scss';
 import '../../scss/button.scss';
 import useForm from "../../hooks/useForm";
 import SubType from "../../models/subType";
-import saveSub from "../../api/sub/saveSub";
+import saveSubType from "../../api/sub/saveSubType";
 import {Redirect} from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
@@ -29,7 +29,7 @@ function AddSubPage(): JSX.Element {
         subModel.isInfinite = isInf;
         let form = document.getElementById('addSubForm') as HTMLFormElement;
 
-        saveSub(subModel)
+        saveSubType(subModel)
             .then(() => {
                 setLoading(false)
                 setRedirect(true)
@@ -54,7 +54,7 @@ function AddSubPage(): JSX.Element {
         return (<Redirect to={'/settings'}/>)
     }
 
-    return (<div className={'addClientWrapper'}>
+    return (<div className={'addSubWrapper'}>
         <form id={'addSubForm'} className={'form addSubForm'} onSubmit={handleSubmit}>
             <div className={`inputSection inputSectionAddSub`}>
                 <label htmlFor="subName" className={'label'}>

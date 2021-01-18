@@ -1,15 +1,15 @@
 import consts from '../../consts'
-import SubType from "../../models/subType";
+import SingleVisitType from "../../models/singleVisitType";
 
 
-export default async function saveSub(sub: SubType):Promise<string> {
+export default async function saveSingleVisitType(visitType: SingleVisitType):Promise<string> {
     return new Promise<string>((resolve,reject) => {
-        fetch(`${consts.BASE_URL}/addSub`, {
+        fetch(`${consts.BASE_URL}/addSingleVisit`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
-            body: JSON.stringify(sub)
+            body: JSON.stringify(visitType)
         }).then(res => {
             if (res.ok) {
                 resolve(res.statusText)

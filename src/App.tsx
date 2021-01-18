@@ -4,7 +4,8 @@ import Navbar from "./navbar/Navbar";
 import MainPage from "./pages/main/MainPage";
 import AddClientPage from "./pages/addClient/AddClientPage";
 import Settings from "./pages/settings/SettingsPage";
-import AddSubPage from "./pages/addSub/AddSubPage";
+import AddSubPage from "./pages/addSubType/AddSubPage";
+import AddSingleVisitPage from "./pages/addSingleVisitType/AddSingleVisitPage";
 import {Switch, Route} from 'react-router-dom'
 
 function App() {
@@ -22,8 +23,11 @@ function App() {
                     <Route path={'/settings'}>
                         <Settings/>
                     </Route>
-                    <Route path={'/addSub'}>
+                    <Route path={'/addSubType'}>
                         <AddSubPage/>
+                    </Route>
+                    <Route path={'/addSingleVisitType'}>
+                        <AddSingleVisitPage/>
                     </Route>
                 </Switch>
             </div>
