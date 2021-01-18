@@ -11,11 +11,11 @@ function Navbar(): JSX.Element {
     let button = !mobileIsOpen ?  <FontAwesomeIcon icon={faBars}/> : <FontAwesomeIcon icon={faTimes}/>;
     let visibleClass = mobileIsOpen ? 'visible' : 'hidden';
     let navbarActiveClass = mobileIsOpen ? 'active' : ''
-    let handleButtonClick = () => handleMobileButtonClick(!mobileIsOpen)
+    let handleButtonClick = () => handleMobileButtonClick(false)
 
     return (
         <div className={`Navbar ${navbarActiveClass}`}>
-            <Link to={'/'} className={"MainLabel"}>Ладъ CRM</Link>
+            <Link to={'/'} className={"MainLabel"} onClick={handleButtonClick}>Ладъ CRM</Link>
             <div className={`Links ${visibleClass}`}>
                 <Link className={'Link'} to={'/archive'} onClick={handleButtonClick}> Архив </Link>
                 <Link className={'Link'} to={'/settings'} onClick={handleButtonClick}> Настройки </Link>

@@ -19,9 +19,31 @@
 
 .input {
   height: 4vh;
-  width: 100%;
+  width: calc(99% - 1vw);
+  border-radius: 10px;
+  border: 2px solid $accent-color;
+  padding-left: 1vw;
+  outline: none;
 }
 
 .form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
+.inputSectionCheckBox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.5vh;
+  outline: none;
+}
+
+.checkBoxLabel {
+  color: $accent-color;
+  font-size: 2vh;
+  display: flex;
+  align-items: flex-start;
 }

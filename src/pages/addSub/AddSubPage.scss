@@ -1,0 +1,50 @@
+.addClientWrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addSubForm {
+  height: 90%;
+  width: 50vw;
+}
+
+.addSubButton {
+  height: 6vh;
+  width: 50vw;
+
+  margin: 1vh 0;
+}
+
+.inputSectionAddSub {
+  width: 50vw;
+  height: 10vh;
+}
+
+.checkBoxAddSub {
+  width: 50vw;
+  margin-bottom: 1vh;
+}
+
+@media screen and (max-device-width: 649px) {
+  .addSubForm {
+    width: 90%;
+  }
+
+  .checkBoxAddSub {
+    width: 80vw;
+  }
+
+  .inputSectionAddSub {
+    width: 80vw;
+    height: auto;
+  }
+
+  .addSubButton {
+    width: 80vw;
+  }
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import './SearchBar.scss';
-import '../../scss/button.scss'
+import '../../../scss/button.scss'
 import {Link} from "react-router-dom";
 
 function SearchBar():JSX.Element {

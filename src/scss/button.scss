@@ -1,6 +1,7 @@
 @import "vars";
 
 .button {
+  outline: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,6 +16,11 @@
   font-weight: bolder;
 
   &:hover {
+    color: $accent-color;
+    background-color: $text-color;
+  }
+
+  &:focus {
     color: $accent-color;
     background-color: $text-color;
   }

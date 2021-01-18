@@ -1,4 +1,4 @@
-@import "./src/scss/vars";
+@import "../../../scss/vars";
 
 .searchBar {
   display: flex;
@@ -10,7 +10,8 @@
 
 .search {
   width: 70%;
-  height: 6vh;
+  height: 4vh;
+  padding: 1vh;
   border-radius: 10px;
   border: 2px solid $accent-color;
   outline: none;
@@ -19,6 +20,8 @@
 .addClientButton {
   width: 20%;
   height: 6vh;
+  font-size: 2.5vh;
+  text-align: center;
 }
 
 @media screen and (max-width: 649px){
