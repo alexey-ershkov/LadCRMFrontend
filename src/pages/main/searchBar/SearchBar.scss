@@ -5,13 +5,14 @@
   align-items: center;
   justify-content: space-around;
 
+  height: 10vh;
   padding: 3vh;
 }
 
 .search {
   width: 70%;
   height: 4vh;
-  padding: 1vh;
+  padding: 1.2vh;
   border-radius: 10px;
   border: 2px solid $accent-color;
   outline: none;
@@ -24,7 +25,7 @@
   text-align: center;
 }
 
-@media screen and (max-width: 649px){
+@media screen and (max-width: 768px){
   .searchBar {
     flex-direction: column-reverse;
     height: 20vh;

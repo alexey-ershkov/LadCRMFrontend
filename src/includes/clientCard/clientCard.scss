@@ -1,0 +1,84 @@
+@import "../../scss/vars";
+
+.clientCard {
+  width: 90%;
+  padding: 2vh;
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 1vh 1vw;
+
+  background: $text-color;
+  text-decoration: none;
+  color: $accent-color;
+  border-radius: 10px;
+}
+
+.clientInfo {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  height: 90%;
+  width: 60%;
+  margin-right: 3vw;
+}
+
+.clientNames {
+  margin-left: 3vw;
+  font-size: 3vh;
+  width: 40%;
+}
+
+.phone {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 50%;
+}
+
+.orderNumber {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 50%;
+}
+
+.title {
+  color: $sub-accent-color;
+}
+
+@media screen and (max-width: 1000px) {
+  .clientCard {
+    flex-direction: column;
+    height: 12vh;
+    align-items: center;
+    padding: 2vh;
+    width: 85%;
+  }
+
+  .clientNames {
+    width: 90%;
+    margin-left: 0;
+    margin-bottom: 0.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .clientInfo {
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0;
+  }
+
+  .title {
+    margin: 0;
+  }
+}
