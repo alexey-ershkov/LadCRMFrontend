@@ -13,7 +13,7 @@ function ClientCard({client}:IClientCardProps):JSX.Element {
         <div className={'clientNames'}>
             {client.surname} {client.name}  {client.lastName}
         </div>
-        <div className={'clientInfo'}>
+        <div className={'clientCardInfo'}>
             <div className={'phone'}>
                 <p className={'title'}>Телефон: </p> &nbsp; {client.phone}
             </div>

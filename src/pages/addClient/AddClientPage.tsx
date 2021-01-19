@@ -15,6 +15,8 @@ const today = new Date().toISOString().split("T")[0];
 function AddClientPage(): JSX.Element {
     const handleConfirm = () => {
         setLoading(true)
+        const created = document.getElementById('created') as HTMLInputElement;
+        addClientModel.created = new Date (created.value);
         let form = document.getElementById('addClientForm') as HTMLFormElement;
         saveClient(addClientModel)
             .then(() => {

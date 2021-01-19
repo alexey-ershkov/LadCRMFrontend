@@ -1,0 +1,189 @@
+@import "src/scss/vars";
+
+.clientContainer {
+  bottom: 5vh;
+  left: 10vw;
+  right: 10vw;
+  height: 80vh;
+  position: absolute;
+  border-radius: 20px;
+
+  background-color: $text-color;
+}
+
+.clientInfo {
+  width: 100%;
+  height: 40%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.clientContacts {
+  height: 100%;
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.clientName {
+  height: 100%;
+  width: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  font-size: 5vh;
+  font-weight: 500;
+  padding-left: 3vw;
+  color: $accent-color;
+}
+
+.clientSubs {
+  width: 100%;
+  height: 25%;
+}
+
+.subTypesLoader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.clientSell {
+  height: 25%;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.sellSelect {
+  height: 100%;
+  width: 40%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.sellTitle {
+  margin: 0;
+  color: $accent-color;
+}
+
+.selectForm {
+  margin-top: 2vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 12vh;
+  width: 100%;
+}
+
+.sellButton {
+  height: 50%;
+  width: 100%;
+  margin-top: 1vh;
+
+  font-size: 2.5vh;
+}
+
+.selectInput {
+  width: 100%;
+  height: 35%;
+  outline: none;
+
+  border-radius: 20px;
+  border: 2px solid $accent-color;
+  padding: 0 2vw;
+}
+
+.clientContactInfo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 2vw;
+
+  color: $accent-color;
+  font-weight: 500;
+
+  font-size: 3vh;
+  height: 20%;
+  width: 100%;
+}
+
+.clientSubTitle {
+  color: $sub-accent-color;
+  font-weight: 400;
+}
+
+.mobileArrow {
+  display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+  .clientContainer {
+    overflow: scroll;
+    bottom: 2vh;
+    left: 5vw;
+    right: 5vw;
+    height: 85vh;
+  }
+
+  .clientInfo {
+    flex-direction: column;
+    height: 100%;
+
+  }
+
+  .mobileArrow {
+    display: block;
+    color: $accent-color;
+    font-size: 4vh;
+    margin-bottom: 2vh;
+  }
+
+  .clientName {
+    width: 90%;
+  }
+
+  .clientContacts {
+    width: 90%;
+    margin-bottom: 3vh;
+  }
+
+  .clientContactInfo {
+    flex-direction: column;
+
+    align-items: flex-start;
+    justify-content: center;
+
+    height: 30%;
+  }
+
+  .clientSubTitle {
+    margin: 0;
+  }
+
+  .clientSell {
+    flex-direction: column;
+    height: 50%;
+
+  }
+
+  .sellSelect {
+    width: 90%;
+  }
+}
