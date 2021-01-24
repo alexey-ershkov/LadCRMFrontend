@@ -17,6 +17,7 @@ function Navbar(): JSX.Element {
         <div className={`Navbar ${navbarActiveClass}`}>
             <Link to={'/'} className={"MainLabel"} onClick={handleButtonClick}>Ладъ CRM</Link>
             <div className={`Links ${visibleClass}`}>
+                <Link className={'Link'} to={'/journal'} onClick={handleButtonClick}> Журнал посещений </Link>
                 <Link className={'Link'} to={'/archive'} onClick={handleButtonClick}> Архив </Link>
                 <Link className={'Link'} to={'/settings'} onClick={handleButtonClick}> Настройки </Link>
             </div>

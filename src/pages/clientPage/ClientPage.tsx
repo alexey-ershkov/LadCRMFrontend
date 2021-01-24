@@ -9,6 +9,9 @@ import getSubTypes from "../../api/sub/getSubTypes";
 import getSingleVisitTypes from "../../api/singleVisit/getSingleVisitTypes";
 import SubType from "../../models/subType";
 import SingleVisitType from "../../models/singleVisitType";
+import useForm from "../../hooks/useForm";
+import SingleVisit from "../../models/singleVisit";
+import saveSingleVisit from "../../api/singleVisit/saveSingleVisit";
 
 interface params {
     id: string
@@ -24,7 +27,25 @@ function ClientPage(): JSX.Element {
     const [subTypes, setSubTypes] = useState([]);
     const [singleVisitTypes, setSingleVisitTypes] = useState([]);
 
+
     let {id} = useParams<params>();
+
+    const handleSingleVisitOrder = () => {
+        setIsLoading(true);
+        let visit:SingleVisit = inputs as SingleVisit
+        visit.user = id
+        saveSingleVisit(visit)
+            .then(() => {
+                setIsLoading(false)
+            })
+            .catch(err => {
+                setIsLoading(false)
+                alert(err)
+            })
+    }
+    const {inputs, handleInputChange, handleSubmit} = useForm(handleSingleVisitOrder)
+
+
 
     useEffect(() => {
         if (id === undefined) {
@@ -96,7 +117,7 @@ function ClientPage(): JSX.Element {
                     <p className={'clientSubTitle'}>Номер договора: &nbsp; </p>  {typedClient.orderNumber}
                 </div>
                 <div className={'clientContactInfo'}>
-                    <p className={'clientSubTitle'}>В системе с:  &nbsp; </p>  {dateOfOrder.toLocaleDateString()}
+                    <p className={'clientSubTitle'}>В клубе с:  &nbsp; </p>  {dateOfOrder.toLocaleDateString()}
                 </div>
             </div>
             <div className={'mobileArrow'}>
@@ -128,13 +149,13 @@ function ClientPage(): JSX.Element {
                 </div> :
                 <div className={'sellSub sellSelect'}>
                     <h2 className={'sellTitle'}>Продажа абонемента</h2>
-                    <form className={'selectForm'} >
-                        <select className={'selectInput'} required name="subName" id="subName">
-                            <option selected disabled>
+                    <form className={'selectForm'}>
+                        <select defaultValue={''} className={'selectInput'} required name="subName" id="subName">
+                            <option value={''} disabled>
                                 Выберите тип абонемента
                             </option>
-                            {subTypes.map((value:SubType) => {
-                                return (<option value={value._id}>
+                            {subTypes.map((value: SubType) => {
+                                return (<option key={value._id} value={value._id}>
                                     {value.subName} - {value.cost} ₽
                                 </option>)
                             })}
@@ -152,13 +173,14 @@ function ClientPage(): JSX.Element {
                 </div> :
                 <div className={'sellSingleVisit sellSelect'}>
                     <h2 className={'sellTitle'}>Разовое посещение</h2>
-                    <form  className={'selectForm'}>
-                        <select className={'selectInput'} required name="subName" id="singleVisitName">
-                            <option selected disabled>
-                                Выберите тип абонемента
+                    <form className={'selectForm'} onSubmit={handleSubmit}>
+                        <select defaultValue={''} className={'selectInput'} required name="visitType" id="visitType"
+                                onChange={handleInputChange}>
+                            <option value={''} disabled>
+                                Выберите тип посещения
                             </option>
-                            {singleVisitTypes.map((value:SingleVisitType) => {
-                                return (<option value={value._id}>
+                            {singleVisitTypes.map((value: SingleVisitType) => {
+                                return (<option key={value._id} value={value._id}>
                                     {value.visitName} - {value.cost} ₽
                                 </option>)
                             })}
