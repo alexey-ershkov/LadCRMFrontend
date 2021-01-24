@@ -6,7 +6,7 @@ interface ISubCardProps {
     sub: Subscription
 }
 
-function SubCard({sub}: ISubCardProps): JSX.Element {
+function ClientSubCard({sub}: ISubCardProps): JSX.Element {
 
     const dateTo = new Date(sub.dateTo);
 
@@ -30,4 +30,4 @@ function SubCard({sub}: ISubCardProps): JSX.Element {
     </a>)
 }
 
-export default SubCard;
+export default ClientSubCard;

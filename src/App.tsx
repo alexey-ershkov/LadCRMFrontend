@@ -10,6 +10,7 @@ import ClientPage from './pages/clientPage/ClientPage';
 import SubPage from "./pages/subPage/SubPage";
 import {Switch, Route} from 'react-router-dom';
 import JournalPage from "./pages/journalPage/journalPage";
+import ArchivePage from "./pages/archivePage/archivePage";
 
 function App() {
     return (
@@ -40,6 +41,9 @@ function App() {
                     </Route>
                     <Route path={'/journal'}>
                         <JournalPage/>
+                    </Route>
+                    <Route path={'/archive'}>
+                        <ArchivePage/>
                     </Route>
                 </Switch>
             </div>

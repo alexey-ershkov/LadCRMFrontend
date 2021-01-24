@@ -16,7 +16,7 @@ import SubscriptionSell from "../../models/subscriptionSell";
 import sellSub from "../../api/sub/sellSub";
 import getUserSubs from "../../api/sub/getUserSubs";
 import Subscription from "../../models/subscription";
-import SubCard from "./subCard/subCard";
+import ClientSubCard from "./subCard/clientSubCard";
 
 interface params {
     id: string
@@ -181,7 +181,7 @@ function ClientPage(): JSX.Element {
                 clientSubs.length !== 0 ?
                     <div className={'clientSubsContainer'}>
                         {clientSubs.map((sub) => {
-                            return <SubCard key={sub._id} sub={sub}/>
+                            return <ClientSubCard key={sub._id} sub={sub}/>
                         })}
                     </div> :
                     <div className={'NoSubsTitle'}>
