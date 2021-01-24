@@ -6,8 +6,9 @@ import AddClientPage from "./pages/addClient/AddClientPage";
 import Settings from "./pages/settings/SettingsPage";
 import AddSubPage from "./pages/addSubType/AddSubPage";
 import AddSingleVisitPage from "./pages/addSingleVisitType/AddSingleVisitPage";
-import ClientPage from './pages/clientPage/ClientPage'
-import {Switch, Route} from 'react-router-dom'
+import ClientPage from './pages/clientPage/ClientPage';
+import SubPage from "./pages/subPage/SubPage";
+import {Switch, Route} from 'react-router-dom';
 
 function App() {
     return (
@@ -32,6 +33,9 @@ function App() {
                     </Route>
                     <Route path={'/client/:id'}>
                         <ClientPage/>
+                    </Route>
+                    <Route path={'/subscription/:id'}>
+                        <SubPage/>
                     </Route>
                 </Switch>
             </div>

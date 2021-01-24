@@ -1,0 +1,64 @@
+@import "./src/scss/vars";
+
+.subCard {
+  position: relative;
+
+  width: 14vw;
+  height: 49%;
+  outline: none;
+  text-decoration: none;
+  color: $text-color;
+
+  background-color: $accent-color;
+  border-radius: 20px;
+  padding: 2%;
+
+  margin: 0.3%;
+}
+
+.subName {
+  font-size: 4vh;
+  font-weight: 600;
+}
+
+.subInfo {
+  padding-top: 1vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.visitsLeft {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.dateTo {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+@media screen and (max-width: 1600px) {
+  .subCard {
+    width: 20vw;
+    margin: 2vh 0;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .subCard {
+    width: 30vw;
+    margin: 4vh 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .subCard {
+    width: 70vw;
+    height: 70%;
+    margin: 2vh 0;
+  }
+}

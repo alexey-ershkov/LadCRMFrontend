@@ -12,6 +12,11 @@ import SingleVisitType from "../../models/singleVisitType";
 import useForm from "../../hooks/useForm";
 import SingleVisit from "../../models/singleVisit";
 import saveSingleVisit from "../../api/singleVisit/saveSingleVisit";
+import SubscriptionSell from "../../models/subscriptionSell";
+import sellSub from "../../api/sub/sellSub";
+import getUserSubs from "../../api/sub/getUserSubs";
+import Subscription from "../../models/subscription";
+import SubCard from "../../includes/subCard/subCard";
 
 interface params {
     id: string
@@ -26,6 +31,7 @@ function ClientPage(): JSX.Element {
     const [client, setClient] = useState({});
     const [subTypes, setSubTypes] = useState([]);
     const [singleVisitTypes, setSingleVisitTypes] = useState([]);
+    const [clientSubs, setClientSubs] = useState<Array<Subscription>>([]);
 
 
     let {id} = useParams<params>();
@@ -45,7 +51,32 @@ function ClientPage(): JSX.Element {
     }
     const {inputs, handleInputChange, handleSubmit} = useForm(handleSingleVisitOrder)
 
+    const handleSellSub = () => {
+        setIsLoading(true);
+        let sellSubInfo: SubscriptionSell = inputSellSub.inputs as SubscriptionSell
+        sellSubInfo.user = id;
+        setIsClientSubsLoading(true);
 
+        sellSub(sellSubInfo)
+            .then(() => {
+                getUserSubs(id)
+                    .then(data => {
+                        setClientSubs(data);
+                        setIsClientSubsLoading(false);
+                        setIsLoading(false)
+                    })
+                    .catch(err => {
+                        setIsClientSubsLoading(false);
+                        setIsLoading(false)
+                        alert(err);
+                    })
+            })
+            .catch(err => {
+                setIsLoading(false)
+                alert(err)
+            })
+    }
+    const inputSellSub = useForm(handleSellSub)
 
     useEffect(() => {
         if (id === undefined) {
@@ -89,6 +120,21 @@ function ClientPage(): JSX.Element {
             })
     }, [isLoading])
 
+    useEffect(() => {
+        if (id === undefined) {
+            return
+        }
+        getUserSubs(id)
+            .then(data => {
+                setClientSubs(data);
+                setIsClientSubsLoading(false);
+            })
+            .catch(err => {
+                setIsClientSubsLoading(false);
+                alert(err);
+            })
+    }, [id])
+
     if (isLoading) {
         return (
             <div className={'loadIndicator'}>
@@ -130,10 +176,16 @@ function ClientPage(): JSX.Element {
         <div className={'clientSubs'}>
             {isClientSubsLoading ?
                 <div className={'subTypesLoader'}>
-                    {/*<PulseLoader color={consts.ACCENT_COLOR_HEX} loading={true}/>*/}
+                    <PulseLoader color={consts.ACCENT_COLOR_HEX} loading={true}/>
                 </div> :
-                <div>
-
+                clientSubs.length !==0 ?
+                <div className={'clientSubsContainer'}>
+                    {clientSubs.map((sub) => {
+                        return <SubCard key={sub._id} sub={sub}/>
+                    })}
+                </div> :
+                <div className={'NoSubsTitle'}>
+                    Абонементов нет
                 </div>
             }
         </div>
@@ -149,8 +201,9 @@ function ClientPage(): JSX.Element {
                 </div> :
                 <div className={'sellSub sellSelect'}>
                     <h2 className={'sellTitle'}>Продажа абонемента</h2>
-                    <form className={'selectForm'}>
-                        <select defaultValue={''} className={'selectInput'} required name="subName" id="subName">
+                    <form className={'selectForm'} onSubmit={inputSellSub.handleSubmit}>
+                        <select defaultValue={''} className={'selectInput'} required name="subType" id="subType"
+                        onChange={inputSellSub.handleInputChange}>
                             <option value={''} disabled>
                                 Выберите тип абонемента
                             </option>
