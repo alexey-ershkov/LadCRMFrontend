@@ -146,6 +146,20 @@ function ClientPage(): JSX.Element {
     const typedClient = client as Client
     let dateOfBirth = new Date(typedClient.dateOfBirth)
     let dateOfOrder = new Date(typedClient.created)
+    let parentDateOfBirth = undefined;
+    if (typedClient.isChild) {
+        parentDateOfBirth = new Date(typedClient.parentDateOfBirth!)
+    }
+
+    const name = document.getElementsByClassName('clientName')[0] as HTMLElement;
+    const info = document.getElementsByClassName('clientContacts')[0] as HTMLElement;
+
+    if (!typedClient.isChild) {
+        if (name && info) {
+            name.style.cssText = 'width: 50%;';
+            info.style.cssText = 'width: 50%;';
+        }
+    }
 
     return (<div className={'clientContainer'}>
         <div className={'clientInfo'}>
@@ -166,6 +180,18 @@ function ClientPage(): JSX.Element {
                     <p className={'clientSubTitle'}>В клубе с:  &nbsp; </p>  {dateOfOrder.toLocaleDateString()}
                 </div>
             </div>
+            {typedClient.isChild && <div className={'parentInfo'}>
+                <div className={'parentTitle'}>
+                    Информация о родителе:
+                </div>
+                <div className={'parentName'}>
+                    {typedClient.parentSurname} {typedClient.parentName} {typedClient.parentLastName}
+                </div>
+                <div className={'parentDateOfBirth'}>
+                    <p className={'parentDateOfBirthTitle'}>Дата
+                        рождения:  &nbsp; </p>  {parentDateOfBirth!.toLocaleDateString()}
+                </div>
+            </div>}
             <div className={'mobileArrow'}>
                 ↓
             </div>
