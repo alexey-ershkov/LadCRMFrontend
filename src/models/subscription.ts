@@ -3,10 +3,11 @@ import subType from "./subType";
 
 export default interface Subscription {
     _id: string,
-    client: Client
+    client: Client,
     subInfo: subType,
+    uuid: number
     dateFrom: Date,
     dateTo: Date,
     isInfinite: boolean,
-    visitsLeft: number
+    visitsLeft?: number
 }

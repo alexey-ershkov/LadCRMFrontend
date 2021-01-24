@@ -13,7 +13,7 @@
 
 .clientInfo {
   width: 100%;
-  height: 40%;
+  height: 30%;
 
   display: flex;
   align-items: center;
@@ -58,7 +58,7 @@
 }
 
 .clientSell {
-  height: 25%;
+  height: 35%;
   width: 100%;
 
   display: flex;
@@ -85,14 +85,14 @@
   margin-top: 2vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: column;
-  height: 12vh;
+  height: 18vh;
   width: 100%;
 }
 
 .sellButton {
-  height: 50%;
+  height: 30%;
   width: 100%;
   margin-top: 1vh;
 
@@ -104,9 +104,9 @@
   height: 35%;
   outline: none;
 
-  border-radius: 20px;
+  border-radius: 10px;
   border: 2px solid $accent-color;
-  padding: 0 2vw;
+  padding: 1vh 0.5vw;
 }
 
 .clientContactInfo {
@@ -164,6 +164,7 @@
     margin-bottom: 3vh;
   }
 
+
   .clientContactInfo {
     flex-direction: column;
 
@@ -179,7 +180,7 @@
 
   .clientSell {
     flex-direction: column;
-    height: 50%;
+    height: 70%;
 
   }
 
@@ -212,4 +213,9 @@
   color: $accent-color;
   font-size: 5vh;
   font-weight: 600;
+}
+
+.inputSubUuid {
+  margin-top: 0.5vh;
+  width: 99%;
 }

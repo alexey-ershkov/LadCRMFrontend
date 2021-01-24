@@ -38,7 +38,7 @@ function ClientPage(): JSX.Element {
 
     const handleSingleVisitOrder = () => {
         setIsLoading(true);
-        let visit:SingleVisit = inputs as SingleVisit
+        let visit: SingleVisit = inputs as SingleVisit
         visit.user = id
         saveSingleVisit(visit)
             .then(() => {
@@ -178,15 +178,15 @@ function ClientPage(): JSX.Element {
                 <div className={'subTypesLoader'}>
                     <PulseLoader color={consts.ACCENT_COLOR_HEX} loading={true}/>
                 </div> :
-                clientSubs.length !==0 ?
-                <div className={'clientSubsContainer'}>
-                    {clientSubs.map((sub) => {
-                        return <SubCard key={sub._id} sub={sub}/>
-                    })}
-                </div> :
-                <div className={'NoSubsTitle'}>
-                    Абонементов нет
-                </div>
+                clientSubs.length !== 0 ?
+                    <div className={'clientSubsContainer'}>
+                        {clientSubs.map((sub) => {
+                            return <SubCard key={sub._id} sub={sub}/>
+                        })}
+                    </div> :
+                    <div className={'NoSubsTitle'}>
+                        Абонементов нет
+                    </div>
             }
         </div>
 
@@ -203,7 +203,7 @@ function ClientPage(): JSX.Element {
                     <h2 className={'sellTitle'}>Продажа абонемента</h2>
                     <form className={'selectForm'} onSubmit={inputSellSub.handleSubmit}>
                         <select defaultValue={''} className={'selectInput'} required name="subType" id="subType"
-                        onChange={inputSellSub.handleInputChange}>
+                                onChange={inputSellSub.handleInputChange}>
                             <option value={''} disabled>
                                 Выберите тип абонемента
                             </option>
@@ -213,6 +213,14 @@ function ClientPage(): JSX.Element {
                                 </option>)
                             })}
                         </select>
+                        <div className={`inputSection inputSubUuid`}>
+                            <input className={`input addClientInput`}
+                                   name={'uuid'}
+                                   id={'uuid'}
+                                   type={'number'}
+                                   placeholder={'Номер абонемента'}
+                                   required onChange={inputSellSub.handleInputChange}/>
+                        </div>
                         <button className={'button sellButton'} type={'submit'}>
                             Оформить абонемент
                         </button>
