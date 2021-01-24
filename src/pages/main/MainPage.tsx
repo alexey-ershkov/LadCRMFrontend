@@ -6,11 +6,15 @@ import getClients from "../../api/client/getClients";
 import Client from "../../models/client";
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
+import Subscription from "../../models/subscription";
+import SubCard from "../../includes/subCard/SubCard";
 
 
 function MainPage(): JSX.Element {
 
-    const [clients, setClients] = useState([])
+    const [clients, setClients] = useState<Array<Client>>([])
+    const [subs, setSubs] = useState<Array<Subscription>>([])
+    const [isSubs, setIsSubs] = useState<boolean>(false)
     const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -25,7 +29,7 @@ function MainPage(): JSX.Element {
     if (isLoading) {
         return (
             <div>
-                <SearchBar/>
+                <SearchBar isSubsChanger={setIsSubs} clientsUpdater={setClients} subsUpdater={setSubs}/>
                 <div className={'loadIndicator'}>
                     <PulseLoader color={consts.ACCENT_COLOR_HEX} loading={true}/>
                 </div>
@@ -33,16 +37,29 @@ function MainPage(): JSX.Element {
         )
     }
 
-    return (
-        <div>
-            <SearchBar/>
-            <div className={'clientsContainer'}>
-                {clients.map((value:Client) => {
-                    return <ClientCard client={value} key={value._id}/>
-                })}
+    if (isSubs) {
+        return (
+            <div>
+                <SearchBar isSubsChanger={setIsSubs} clientsUpdater={setClients} subsUpdater={setSubs}/>
+                <div className={'clientsContainer'}>
+                    {subs.map((value:Subscription) => {
+                        return <SubCard sub={value} key={value._id}/>
+                    })}
+                </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return (
+            <div>
+                <SearchBar isSubsChanger={setIsSubs} clientsUpdater={setClients} subsUpdater={setSubs}/>
+                <div className={'clientsContainer'}>
+                    {clients.map((value: Client) => {
+                        return <ClientCard client={value} key={value._id}/>
+                    })}
+                </div>
+            </div>
+        )
+    }
 }
 
 export default MainPage
