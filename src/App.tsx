@@ -9,6 +9,7 @@ import AddSingleVisitPage from "./pages/addSingleVisitType/AddSingleVisitPage";
 import ClientPage from './pages/clientPage/ClientPage';
 import SubPage from "./pages/subPage/SubPage";
 import {Switch, Route} from 'react-router-dom';
+import JournalPage from "./pages/journalPage/journalPage";
 
 function App() {
     return (
@@ -36,6 +37,9 @@ function App() {
                     </Route>
                     <Route path={'/subscription/:id'}>
                         <SubPage/>
+                    </Route>
+                    <Route path={'/journal'}>
+                        <JournalPage/>
                     </Route>
                 </Switch>
             </div>

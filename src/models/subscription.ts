@@ -8,6 +8,7 @@ export default interface Subscription {
     uuid: number
     dateFrom: Date,
     dateTo: Date,
+    isArchived: boolean,
     isInfinite: boolean,
     visitsLeft?: number
 }

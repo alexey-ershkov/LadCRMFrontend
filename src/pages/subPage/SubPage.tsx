@@ -103,11 +103,17 @@ function SubPage(): JSX.Element {
 
                     </div>
                 </div>
-                <form className={'regVisit'} onSubmit={handleSubVisit}>
-                    <button className={'button regVisitButton'}>
-                        Зарегистрировать посещение по абонементу
-                    </button>
-                </form>
+                {subInfo.isArchived ?
+                    <div className={'archivedTitle'}>
+                         В архиве
+                    </div>
+                    :
+                    <form className={'regVisit'} onSubmit={handleSubVisit}>
+                        <button className={'button regVisitButton'}>
+                            Зарегистрировать посещение по абонементу
+                        </button>
+                    </form>
+                }
                 <div className={'subscriptionClientInfo'}>
                     <a href={`/client/${subInfo.client._id}`} className={'button clientRef'}>
                         Клиент - {subInfo.client.surname} {subInfo.client.name}
