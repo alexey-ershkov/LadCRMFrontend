@@ -1,6 +1,6 @@
 import React from "react";
 import './subCard.scss';
-import Subscription from "../../models/subscription";
+import Subscription from "../../../models/subscription";
 
 interface ISubCardProps {
     sub: Subscription

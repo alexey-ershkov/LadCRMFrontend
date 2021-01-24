@@ -16,7 +16,7 @@ import SubscriptionSell from "../../models/subscriptionSell";
 import sellSub from "../../api/sub/sellSub";
 import getUserSubs from "../../api/sub/getUserSubs";
 import Subscription from "../../models/subscription";
-import SubCard from "../../includes/subCard/subCard";
+import SubCard from "./subCard/subCard";
 
 interface params {
     id: string

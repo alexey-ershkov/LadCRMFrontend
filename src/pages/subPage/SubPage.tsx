@@ -28,6 +28,13 @@ function SubPage(): JSX.Element {
         saveSubVisit(visit)
             .then(() => {
                 setIsLoading(false);
+                getSubInfo(id)
+                    .then(data => {
+                        setSubInfo(data);
+                    })
+                    .catch(err => {
+                        alert(err);
+                    })
             })
             .catch(err => {
                 setIsLoading(false);
