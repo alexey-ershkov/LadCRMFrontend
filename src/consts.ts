@@ -1,5 +1,5 @@
 const consts =  {
-    BASE_URL: "http://localhost:3001",
+    BASE_URL: "https://boiling-mesa-04878.herokuapp.com/",
     ACCENT_COLOR_HEX: '#0085d0'
 }
 
