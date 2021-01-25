@@ -40,6 +40,7 @@ function ClientPage(): JSX.Element {
         setIsLoading(true);
         let visit: SingleVisit = inputs as SingleVisit
         visit.user = id
+        visit.visitTime = new Date();
         saveSingleVisit(visit)
             .then(() => {
                 setIsLoading(false)

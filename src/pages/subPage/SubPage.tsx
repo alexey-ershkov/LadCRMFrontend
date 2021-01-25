@@ -23,7 +23,8 @@ function SubPage(): JSX.Element {
 
         let visit:SubVisit = {
             subId: id,
-            client: subInfo!.client._id
+            client: subInfo!.client._id,
+            visitTime: new Date()
         }
         saveSubVisit(visit)
             .then(() => {

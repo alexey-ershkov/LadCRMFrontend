@@ -8,6 +8,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
 import Subscription from "../../models/subscription";
 import SubCard from "../../includes/subCard/SubCard";
+import {Redirect} from "react-router-dom";
 
 
 function MainPage(): JSX.Element {
@@ -38,16 +39,20 @@ function MainPage(): JSX.Element {
     }
 
     if (isSubs) {
-        return (
-            <div>
-                <SearchBar isSubsChanger={setIsSubs} clientsUpdater={setClients} subsUpdater={setSubs}/>
-                <div className={'clientsContainer'}>
-                    {subs.map((value:Subscription) => {
-                        return <SubCard sub={value} key={value._id}/>
-                    })}
+        if (subs.length === 1) {
+            return <Redirect to={`/subscription/${subs[0]._id}`}/>
+        } else {
+            return (
+                <div>
+                    <SearchBar isSubsChanger={setIsSubs} clientsUpdater={setClients} subsUpdater={setSubs}/>
+                    <div className={'clientsContainer'}>
+                        {subs.map((value: Subscription) => {
+                            return <SubCard sub={value} key={value._id}/>
+                        })}
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
     } else {
         return (
             <div>
