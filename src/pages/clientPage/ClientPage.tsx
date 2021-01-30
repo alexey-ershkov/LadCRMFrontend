@@ -155,7 +155,7 @@ function ClientPage(): JSX.Element {
     const name = document.getElementsByClassName('clientName')[0] as HTMLElement;
     const info = document.getElementsByClassName('clientContacts')[0] as HTMLElement;
 
-    if (!typedClient.isChild) {
+    if (typedClient.isChild) {
         if (name && info) {
             name.style.cssText = 'width: 50%;';
             info.style.cssText = 'width: 50%;';
@@ -236,18 +236,10 @@ function ClientPage(): JSX.Element {
                             </option>
                             {subTypes.map((value: SubType) => {
                                 return (<option key={value._id} value={value._id}>
-                                    {value.subName} - {value.cost} ₽
+                                    {value.subName}, {value.visitsCount} - {value.cost} ₽
                                 </option>)
                             })}
                         </select>
-                        <div className={`inputSection inputSubUuid`}>
-                            <input className={`input addClientInput`}
-                                   name={'uuid'}
-                                   id={'uuid'}
-                                   type={'number'}
-                                   placeholder={'Номер абонемента'}
-                                   required onChange={inputSellSub.handleInputChange}/>
-                        </div>
                         <button className={'button sellButton'} type={'submit'}>
                             Оформить абонемент
                         </button>

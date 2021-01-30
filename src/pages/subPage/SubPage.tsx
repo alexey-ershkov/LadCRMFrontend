@@ -100,7 +100,7 @@ function SubPage(): JSX.Element {
         return (<div className={'clientContainer'}>
             <div className={'subscription'}>
                 <div className={'subscriptionTitle'}>
-                    <h2>Абонемент {subInfo.uuid}</h2>
+                     <div>{subInfo.subInfo.subName}</div>
                 </div>
                 <div className={'subscriptionInfo'}>
                     <div className={'mainInfo'}>
@@ -116,14 +116,11 @@ function SubPage(): JSX.Element {
                         </div>
                     </div>
                     <div className={'subscriptionAdditionalInfo '}>
-                        <div className={'clientInfoPart'}>
-                            <p className={'clientTitle'}>Название:&nbsp; </p>  {subInfo.subInfo.subName}
-                        </div>
                         <div className={'subscriptionFrom clientInfoPart'}>
                             <p className={'clientTitle'}>Оформлен: &nbsp; </p>  {dateFrom.toLocaleDateString()}
                         </div>
                         <div className={'subscriptionCost clientInfoPart'}>
-                            <p className={'clientTitle'}>Стоимость: &nbsp; </p> {subInfo.subInfo.cost}
+                            <p className={'clientTitle'}>Стоимость: &nbsp; </p> {subInfo.subInfo.cost} ₽
                         </div>
                         <div className={'subscriptionCost clientInfoPart'}>
                             <p className={'clientTitle'}>Клиент:&nbsp;</p>
