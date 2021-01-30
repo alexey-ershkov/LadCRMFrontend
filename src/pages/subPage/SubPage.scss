@@ -69,10 +69,7 @@
 }
 
 .clientRef {
-  height: 55%;
-  width: 75%;
-
-  font-size: 3vh;
+  color: $accent-color;
 }
 
 .clientMainPart {
@@ -122,7 +119,9 @@
 
   margin: 1vh 0;
 
-  font-size: 3.5vh;
+  font-size: 3vh;
+  text-align: left;
+
   font-weight: 600;
   color: $accent-color;
 }
@@ -143,4 +142,38 @@
   font-weight: 500;
   font-size: 6vh;
   color: $accent-color;
+}
+
+@media screen and (max-width: 768px) {
+  .subscriptionTitle {
+    text-align: center;
+  }
+
+  .subscription {
+    height: 140%;
+    width: 100%;
+  }
+
+  .subscriptionInfo {
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+
+  .mainInfo {
+    width: 90%;
+  }
+
+  .subscriptionAdditionalInfo {
+    width: 90%;
+  }
+
+  .clientInfoPart {
+    text-align: center;
+  }
+
+  .regVisitButton {
+    width: 90%;
+    height: 60%;
+  }
 }

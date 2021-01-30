@@ -7,6 +7,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
 import saveSubVisit from "../../api/sub/saveSubVisit";
 import SubVisit from "../../models/subVisit";
+import addToArchive from "../../api/sub/archiveSub";
 
 interface params {
     id: string
@@ -21,12 +22,33 @@ function SubPage(): JSX.Element {
         event.preventDefault();
         setIsLoading(true);
 
-        let visit:SubVisit = {
+        let visit: SubVisit = {
             subId: id,
             client: subInfo!.client._id,
             visitTime: new Date()
         }
         saveSubVisit(visit)
+            .then(() => {
+                setIsLoading(false);
+                getSubInfo(id)
+                    .then(data => {
+                        setSubInfo(data);
+                    })
+                    .catch(err => {
+                        alert(err);
+                    })
+            })
+            .catch(err => {
+                setIsLoading(false);
+                alert(err);
+            })
+    }
+
+    const handleArchiveAdd =  (event: FormEvent) => {
+        event.preventDefault();
+        setIsLoading(true);
+
+        addToArchive(id)
             .then(() => {
                 setIsLoading(false);
                 getSubInfo(id)
@@ -95,25 +117,31 @@ function SubPage(): JSX.Element {
                     </div>
                     <div className={'subscriptionAdditionalInfo '}>
                         <div className={'clientInfoPart'}>
-                            <p className={'clientTitle'}>Название: </p> &nbsp; {subInfo.subInfo.subName}
+                            <p className={'clientTitle'}>Название:&nbsp; </p>  {subInfo.subInfo.subName}
                         </div>
                         <div className={'subscriptionFrom clientInfoPart'}>
-                            <p className={'clientTitle'}>Оформлен: </p> &nbsp; {dateFrom.toLocaleDateString()}
+                            <p className={'clientTitle'}>Оформлен: &nbsp; </p>  {dateFrom.toLocaleDateString()}
                         </div>
                         <div className={'subscriptionCost clientInfoPart'}>
-                            <p className={'clientTitle'}>Стоимость: </p> &nbsp;{subInfo.subInfo.cost}
+                            <p className={'clientTitle'}>Стоимость: &nbsp; </p> {subInfo.subInfo.cost}
+                        </div>
+                        <div className={'subscriptionCost clientInfoPart'}>
+                            <p className={'clientTitle'}>Клиент:&nbsp;</p>
+                            <a href={`/client/${subInfo.client._id}`} className={'clientRef'}>
+                                {subInfo.client.surname} {subInfo.client.name}
+                            </a>
                         </div>
 
                         {!subInfo.isInfinite &&
-                            <div className={'clientInfoPart'}>
-                                <p className={'clientTitle'}>Посещений всего: </p> &nbsp; {subInfo.subInfo.visitsCount}
-                            </div>}
+                        <div className={'clientInfoPart'}>
+                            <p className={'clientTitle'}>Посещений всего: </p> &nbsp; {subInfo.subInfo.visitsCount}
+                        </div>}
 
                     </div>
                 </div>
                 {subInfo.isArchived ?
                     <div className={'archivedTitle'}>
-                         В архиве
+                        В архиве
                     </div>
                     :
                     <form className={'regVisit'} onSubmit={handleSubVisit}>
@@ -122,11 +150,11 @@ function SubPage(): JSX.Element {
                         </button>
                     </form>
                 }
-                <div className={'subscriptionClientInfo'}>
-                    <a href={`/client/${subInfo.client._id}`} className={'button clientRef'}>
-                        Клиент - {subInfo.client.surname} {subInfo.client.name}
-                    </a>
-                </div>
+                <form className={'subscriptionClientInfo'} onSubmit={handleArchiveAdd}>
+                    <button className={'button regVisitButton'}>
+                        {!subInfo.isArchived ? "Архивировать" : "Вернуть из архива"}
+                    </button>
+                </form>
             </div>
         </div>)
     }
