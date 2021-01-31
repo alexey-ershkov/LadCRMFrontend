@@ -3,16 +3,15 @@ import './SearchBar.scss';
 import '../../../scss/button.scss'
 import {Link} from "react-router-dom";
 import getClients from "../../../api/client/getClients";
-import searchSubs from "../../../api/sub/searchSubs";
 import searchClients from "../../../api/client/searchClients";
+import searchClientsByUuid from "../../../api/client/searchByUuid";
 
 interface SearchBarProps {
     clientsUpdater: Function,
-    subsUpdater: Function,
     isSubsChanger: Function
 }
 
-function SearchBar({clientsUpdater, subsUpdater, isSubsChanger}: SearchBarProps): JSX.Element {
+function SearchBar({clientsUpdater,  isSubsChanger}: SearchBarProps): JSX.Element {
 
 
     const searchInput = document.getElementById('search') as HTMLInputElement
@@ -39,10 +38,10 @@ function SearchBar({clientsUpdater, subsUpdater, isSubsChanger}: SearchBarProps)
                     alert(err);
                 })
         } else {
-            searchSubs(searchInput.value)
+            searchClientsByUuid(searchInput.value)
                 .then(data => {
                     isSubsChanger(true);
-                    subsUpdater(data);
+                    clientsUpdater(data);
                 })
                 .catch(err => {
                     alert(err);

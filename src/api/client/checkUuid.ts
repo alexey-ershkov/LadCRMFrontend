@@ -1,9 +1,9 @@
 import consts from '../../consts'
 
 
-export default async function searchSubs(value: string):Promise<any> {
+export default async function checkClientUuid(uuid:string):Promise<any> {
     return new Promise<any>((resolve,reject) => {
-        fetch(`${consts.BASE_URL}/subs/search/${value}`).then(res => {
+        fetch(`${consts.BASE_URL}/clients/check/uuid/${uuid}`).then(res => {
             if (res.ok) {
                 res.json()
                     .then(data => {

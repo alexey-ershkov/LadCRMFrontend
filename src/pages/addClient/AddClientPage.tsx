@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import './AddClientPage.scss';
 import '../../scss/button.scss'
 import '../../scss/form.scss';
@@ -8,22 +8,60 @@ import saveClient from "../../api/client/saveClient";
 import {Redirect} from 'react-router-dom';
 import PulseLoader from 'react-spinners/PulseLoader';
 import consts from "../../consts";
+import checkClientUuid from "../../api/client/checkUuid";
 
 const today = new Date().toISOString().split("T")[0];
 
 
 function AddClientPage(): JSX.Element {
     const [isChild, setIsChild] = useState<boolean>(false)
+    const [isClientUuidExists, setIsClientUuidExists] = useState<boolean>(false);
+    const [isParentUuidExists, setIsParentUuidExists] = useState<boolean>(false);
 
     const handleCheck = () => {
         setIsChild(!isChild);
     }
+    const handleClientUuid = (event: ChangeEvent) => {
+        handleInputChange(event);
+        const target = event.target as HTMLInputElement;
+        if (target.value !== '') {
+            checkClientUuid(target.value)
+                .then(data => {
+                    setIsClientUuidExists(data.exists);
+                })
+                .catch(err => {
+                    alert(err);
+                });
+        }
+    }
+
+    const handleParentUuid = (event: ChangeEvent) => {
+        handleInputChange(event);
+        const target = event.target as HTMLInputElement;
+        if (target.value !== '') {
+            checkClientUuid(target.value)
+                .then(data => {
+                    setIsParentUuidExists(data.exists);
+                })
+                .catch(err => {
+                    alert(err);
+                });
+        }
+    }
 
     const handleConfirm = () => {
+        if (isParentUuidExists || isClientUuidExists) {
+            alert('Введите уникальный номер для клиента');
+            return;
+        }
         setLoading(true)
         const created = document.getElementById('created') as HTMLInputElement;
         addClientModel.created = new Date(created.value);
         addClientModel.isChild = isChild;
+        addClientModel.uuidStr = String(addClientModel.uuid);
+        if (addClientModel.isChild) {
+            addClientModel.parentUuidStr = String(addClientModel.parentUuid);
+        }
         let form = document.getElementById('addClientForm') as HTMLFormElement;
         saveClient(addClientModel)
             .then(() => {
@@ -52,17 +90,15 @@ function AddClientPage(): JSX.Element {
         return (<Redirect to={'/'}/>)
     }
 
-    const container = document.getElementsByClassName('addClientForm')[0] as HTMLElement;
-    if (container) {
-        if (isChild) {
-            container.style.cssText = 'margin-top: 40vh;'
-        } else {
-            container.style.cssText = 'margin-top: 0;'
-        }
-    }
+    let formStatus = !isChild ? 'addClientForm' : 'addClientWithChildForm';
+
+    let labelClientClass = isClientUuidExists ? 'label-alert' : 'label';
+    let inputClientClass = isClientUuidExists ? 'input-alert' : 'input';
+    let labelParentClass = isParentUuidExists ? 'label-alert' : 'label';
+    let inputParentClass = isParentUuidExists ? 'input-alert' : 'input';
 
     return (<div className={'clientFormContainer'}>
-        <form id={'addClientForm'} className={'form addClientForm'} onSubmit={handleSubmit}>
+        <form id={'addClientForm'} className={`${formStatus} form`} onSubmit={handleSubmit}>
             <div className={`inputSection inputSectionAddClient`}>
                 <label className={`label addClientLabel`} htmlFor={'surname'}>
                     {'Фамилия'}
@@ -119,52 +155,63 @@ function AddClientPage(): JSX.Element {
                 </label>
             </div>
             {isChild &&
-                <div>
-                    <div className={`inputSection inputSectionAddClient`}>
-                        <label className={`label addClientLabel`} htmlFor={'surname'}>
-                            {'Фамилия родителя'}
-                        </label>
-                        <input className={`input addClientInput`}
-                               name={'parentSurname'}
-                               id={'parentSurname'}
-                               type={'text'}
-                               placeholder={'Введите фамилию'}
-                               required onChange={handleInputChange}/>
-                    </div>
-                    <div className={`inputSection inputSectionAddClient`}>
-                        <label className={`label addClientLabel`} htmlFor={'name'}>
-                            {'Имя родителя'}
-                        </label>
-                        <input className={`input addClientInput`}
-                               name={'parentName'}
-                               id={'parentName'}
-                               type={'text'}
-                               placeholder={'Введите имя'}
-                               required onChange={handleInputChange}/>
-                    </div>
-                    <div className={`inputSection inputSectionAddClient`}>
-                        <label className={`label addClientLabel`} htmlFor={'lastName'}>
-                            {'Отчество родителя'}
-                        </label>
-                        <input className={`input addClientInput`}
-                               name={'parentLastName'}
-                               id={'parentLastName'}
-                               type={'text'}
-                               placeholder={'Введите отчество'}
-                               required onChange={handleInputChange}/>
-                    </div>
-                    <div className={`inputSection inputSectionAddClient`}>
-                        <label className={`label addClientLabel`} htmlFor={'dateOfBirth'}>
-                            {'Дата рождения родителя'}
-                        </label>
-                        <input className={`input addClientInput`}
-                               name={'parentDateOfBirth'}
-                               id={'parentDateOfBirth'}
-                               type={'date'}
-                               max={today}
-                               required onChange={handleInputChange}/>
-                    </div>
+            <div>
+                <div className={`inputSection inputSectionAddClient`}>
+                    <label className={`label addClientLabel`} htmlFor={'surname'}>
+                        {'Фамилия родителя'}
+                    </label>
+                    <input className={`input addClientInput`}
+                           name={'parentSurname'}
+                           id={'parentSurname'}
+                           type={'text'}
+                           placeholder={'Введите фамилию'}
+                           required onChange={handleInputChange}/>
                 </div>
+                <div className={`inputSection inputSectionAddClient`}>
+                    <label className={`label addClientLabel`} htmlFor={'name'}>
+                        {'Имя родителя'}
+                    </label>
+                    <input className={`input addClientInput`}
+                           name={'parentName'}
+                           id={'parentName'}
+                           type={'text'}
+                           placeholder={'Введите имя'}
+                           required onChange={handleInputChange}/>
+                </div>
+                <div className={`inputSection inputSectionAddClient`}>
+                    <label className={`label addClientLabel`} htmlFor={'lastName'}>
+                        {'Отчество родителя'}
+                    </label>
+                    <input className={`input addClientInput`}
+                           name={'parentLastName'}
+                           id={'parentLastName'}
+                           type={'text'}
+                           placeholder={'Введите отчество'}
+                           required onChange={handleInputChange}/>
+                </div>
+                <div className={`inputSection inputSectionAddClient`}>
+                    <label className={`label addClientLabel`} htmlFor={'dateOfBirth'}>
+                        {'Дата рождения родителя'}
+                    </label>
+                    <input className={`input addClientInput`}
+                           name={'parentDateOfBirth'}
+                           id={'parentDateOfBirth'}
+                           type={'date'}
+                           max={today}
+                           required onChange={handleInputChange}/>
+                </div>
+                <div className={`inputSection inputSectionAddClient`}>
+                    <label className={`${labelParentClass} addClientLabel`} htmlFor={'parentUuid'}>
+                        {isParentUuidExists? 'Такой номер уже существует' : 'Номер родителя'}
+                    </label>
+                    <input className={`${inputParentClass} addClientInput`}
+                           name={'parentUuid'}
+                           id={'parentUuid'}
+                           type={'number'}
+                           placeholder={'1234567'}
+                           required onChange={handleParentUuid}/>
+                </div>
+            </div>
             }
 
             <div className={`inputSection inputSectionAddClient`}>
@@ -188,6 +235,17 @@ function AddClientPage(): JSX.Element {
                        type={'number'}
                        placeholder={'1341247'}
                        required onChange={handleInputChange}/>
+            </div>
+            <div className={`inputSection inputSectionAddClient`}>
+                <label className={`${labelClientClass} addClientLabel`} htmlFor={'uuid'}>
+                    {!isClientUuidExists ? !isChild ? 'Номер клиента' : 'Номер ребенка' : 'Такой номер уже существует'}
+                </label>
+                <input className={`${inputClientClass} addClientInput`}
+                       name={'uuid'}
+                       id={'uuid'}
+                       type={'number'}
+                       placeholder={'1234567'}
+                       required onChange={handleClientUuid}/>
             </div>
             <div className={`inputSection inputSectionAddClient`}>
                 <label className={`label addClientLabel`} htmlFor={'created'}>

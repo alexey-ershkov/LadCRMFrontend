@@ -9,6 +9,11 @@ export default interface Client {
     parentSurname?: string;
     parentLastName?: string;
     parentDateOfBirth?: Date;
+    parentUuid?: number,
+    parentUuidStr?: string,
+    parentId?:string,
+    uuid: number,
+    uuidStr: string
     phone: string;
     orderNumber: number;
     created: Date;

@@ -18,7 +18,7 @@ function ClientCard({client}:IClientCardProps):JSX.Element {
                 <p className={'title'}>Телефон: </p> &nbsp; {client.phone}
             </div>
             <div className={'orderNumber'}>
-                <p className={'title'}>Номер договора:</p> &nbsp; {client.orderNumber}
+                <p className={'title'}>Номер клиента:</p> &nbsp; {client.uuid}
             </div>
         </div>
     </Link>)
