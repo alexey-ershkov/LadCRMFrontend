@@ -5,24 +5,49 @@ import '../../scss/button.scss';
 import useForm from "../../hooks/useForm";
 
 
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
 import SingleVisitType from "../../models/singleVisitType";
 import saveSingleVisitType from "../../api/singleVisit/saveSingleVisitType";
+import getSingleVisitType from "../../api/singleVisit/getSingleVisitType";
 
 function AddSingleVisitPage(): JSX.Element {
+    const [loading, setLoading] = useState(false)
+    let history = useHistory()
+    let params = new URLSearchParams(history.location.search)
+    let modifyId = params.get('modify');
+
+
+    const [typeInfo, setTypeInfo] = useState<SingleVisitType | undefined>(undefined);
+
+    if (modifyId && typeInfo === undefined) {
+        getSingleVisitType(modifyId)
+            .then(data => {
+                setTypeInfo(data);
+            })
+            .catch(err => {
+                alert(err);
+            })
+    }
+
+
 
     const [redirect, setRedirect] = useState(false)
-    const [loading, setLoading] = useState(false)
 
 
     const handleCallback = () => {
-        setLoading(true)
-
-
         let form = document.getElementById('addSingleVisitForm') as HTMLFormElement;
-
+        visitModel = inputs as SingleVisitType;
+        if (!visitModel.cost && typeInfo) {
+            visitModel.cost = typeInfo.cost;
+        }
+        if (!visitModel.visitName && typeInfo) {
+            visitModel.visitName = typeInfo.visitName;
+        }
+        if (!visitModel._id && typeInfo) {
+            visitModel._id = typeInfo._id;
+        }
         saveSingleVisitType(visitModel)
             .then(() => {
                 setLoading(false)
@@ -35,8 +60,9 @@ function AddSingleVisitPage(): JSX.Element {
             })
     }
 
-    const {inputs, handleSubmit, handleInputChange} = useForm(handleCallback)
-    let visitModel = inputs as SingleVisitType
+    let {inputs, handleSubmit, handleInputChange} = useForm(handleCallback)
+    let visitModel = inputs as SingleVisitType;
+
 
     if (loading) {
         return (<div className={'loadIndicator'}>
@@ -54,14 +80,17 @@ function AddSingleVisitPage(): JSX.Element {
                 <label htmlFor="visitName" className={'label'}>
                     Название посещения
                 </label>
+
                 <input type={'text'}
                        id={'visitName'}
                        name={'visitName'}
                        className={'input'}
                        placeholder={'Введите название посещения'}
                        required
+                       defaultValue={typeInfo ? typeInfo.visitName : ''}
                        onChange={handleInputChange}
                 />
+
             </div>
             <div className={`inputSection inputSectionAddSingleVisit`}>
                 <label htmlFor="cost" className={'label'}>
@@ -74,11 +103,12 @@ function AddSingleVisitPage(): JSX.Element {
                        min={1}
                        placeholder={'1000'}
                        required
+                       defaultValue={typeInfo ? typeInfo.cost : ''}
                        onChange={handleInputChange}
                 />
             </div>
             <button className={'button addSingleVisitButton'}>
-                Создать посещение
+                {modifyId ? "Обновить посещение" : "Создать посещение"}
             </button>
         </form>
     </div>)

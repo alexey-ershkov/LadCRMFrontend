@@ -5,28 +5,66 @@ import '../../scss/button.scss';
 import useForm from "../../hooks/useForm";
 import SubType from "../../models/subType";
 import saveSubType from "../../api/sub/saveSubType";
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
+import getSubType from "../../api/sub/getSubType";
 
 function AddSubPage(): JSX.Element {
+    const [typeInfo, setTypeInfo] = useState<SubType | undefined>(undefined)
 
     const [isInf, setIsInf] = useState(false)
     const [redirect, setRedirect] = useState(false)
     const [loading, setLoading] = useState(false)
 
+    const history = useHistory();
+    const params = new URLSearchParams(history.location.search);
+    let modifyId = params.get('modify');
+
+    if (modifyId && typeInfo === undefined) {
+        getSubType(modifyId)
+            .then(data => {
+                setTypeInfo(data);
+                if (data.isInfinite) {
+                    setIsInf(true);
+                }
+            })
+            .catch(err => {
+                alert(err);
+            })
+    }
+
+
     const handleCheck = () => {
         if (!isInf) {
             const countInput = document.getElementById('visitsCount') as HTMLInputElement;
-            countInput.value='';
+            countInput.value = '';
         }
         setIsInf(!isInf);
     }
 
     const handleCallback = () => {
-        setLoading(true)
+        // setLoading(true)
 
         subModel.isInfinite = isInf;
+
+        if (!subModel.cost && typeInfo) {
+            subModel.cost = typeInfo.cost;
+        }
+        if (!subModel.subName && typeInfo) {
+            subModel.subName = typeInfo.subName;
+        }
+        if (!subModel.daysCount && typeInfo) {
+            subModel.daysCount = typeInfo.daysCount;
+        }
+        if (!subModel.visitsCount && typeInfo && !isInf) {
+            subModel.visitsCount = typeInfo.visitsCount;
+        }
+
+        if (!subModel._id && typeInfo) {
+            subModel._id = typeInfo._id;
+        }
+
         let form = document.getElementById('addSubForm') as HTMLFormElement;
 
         saveSubType(subModel)
@@ -34,7 +72,7 @@ function AddSubPage(): JSX.Element {
                 setLoading(false)
                 setRedirect(true)
                 form.reset();
-        })
+            })
             .catch(err => {
                 setLoading(false)
                 alert(err)
@@ -42,7 +80,7 @@ function AddSubPage(): JSX.Element {
     }
 
     const {inputs, handleSubmit, handleInputChange} = useForm(handleCallback)
-    let subModel = inputs as SubType
+    let subModel = inputs as SubType;
 
     if (loading) {
         return (<div className={'loadIndicator'}>
@@ -66,6 +104,7 @@ function AddSubPage(): JSX.Element {
                        className={'input'}
                        placeholder={'Имя абонемента'}
                        required
+                       defaultValue={typeInfo ? typeInfo.subName : ''}
                        onChange={handleInputChange}
                 />
             </div>
@@ -73,12 +112,13 @@ function AddSubPage(): JSX.Element {
                 <label htmlFor="visitsCount" className={'label'}>
                     Количество посещений
                 </label>
-                {isInf?
+                {isInf ?
                     <input type={'number'}
                            id={'visitsCount'}
                            name={'visitsCount'}
                            className={'input'}
                            disabled
+                           defaultValue={''}
                            placeholder={'Без лимита посещений'}
                            onChange={handleInputChange}
                     />
@@ -89,6 +129,7 @@ function AddSubPage(): JSX.Element {
                            className={'input'}
                            min={1}
                            placeholder={'4'}
+                           defaultValue={typeInfo ? typeInfo.visitsCount : ''}
                            required
                            onChange={handleInputChange}
                     />
@@ -116,6 +157,7 @@ function AddSubPage(): JSX.Element {
                        min={1}
                        placeholder={'30'}
                        required
+                       defaultValue={typeInfo ? typeInfo.daysCount : ''}
                        onChange={handleInputChange}
                 />
             </div>
@@ -128,13 +170,14 @@ function AddSubPage(): JSX.Element {
                        name={'cost'}
                        className={'input'}
                        min={1}
+                       defaultValue={typeInfo ? typeInfo.cost : ''}
                        placeholder={'1000'}
                        required
                        onChange={handleInputChange}
                 />
             </div>
             <button className={'button addSubButton'}>
-                Создать абонемент
+                {typeInfo ? 'Обновить абонемент' : 'Создать абонемент'}
             </button>
         </form>
     </div>)

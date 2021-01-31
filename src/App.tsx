@@ -11,6 +11,7 @@ import SubPage from "./pages/subPage/SubPage";
 import {Switch, Route} from 'react-router-dom';
 import JournalPage from "./pages/journalPage/journalPage";
 import ArchivePage from "./pages/archivePage/archivePage";
+import ModifySubsAndSingleVisitsPage from "./pages/modifySubsAndVisitsPage/ModifySubsAndSingleVisitsPage";
 
 function App() {
     return (
@@ -29,6 +30,9 @@ function App() {
                     </Route>
                     <Route path={'/addSubType'}>
                         <AddSubPage/>
+                    </Route>
+                    <Route path={'/modifySubsAndSingleVisits'}>
+                        <ModifySubsAndSingleVisitsPage/>
                     </Route>
                     <Route path={'/addSingleVisitType'}>
                         <AddSingleVisitPage/>
