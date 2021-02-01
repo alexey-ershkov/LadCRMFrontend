@@ -1,11 +1,92 @@
+@import "src/scss/vars";
+
 .journalContainer {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-around;
 
   overflow-y: auto;
+}
+
+.innerJournalCardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.journalCardContainer {
+  height: 66vh;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  justify-content: flex-start;
+}
+
+.notFoundTitle {
+  color: $accent-color;
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 400;
+  font-size: 5vh;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4vh;
+  width: 60%;
+  padding: 1vh;
+
+  background-color: $text-color;
+  border-radius: 10px;
+  color: $accent-color;
+}
+
+.active {
+  color: $text-color;
+  background-color: $accent-color;
+  border-radius: 10px;
+}
+
+.pagination li {
+  padding: 1vh;
+  outline: none;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 1vw;
+  height: 2.5vh;
+  width: 2.5vh;
+  text-align: center;
+}
+
+.pagination li a {
+  outline: none;
+}
+
+.previous {
+  display: none !important;
+}
+
+.next {
+  display: none !important;
+}
+
+@media screen and (max-width: 768px) {
+  .pagination {
+    width: 90%;
+  }
 }

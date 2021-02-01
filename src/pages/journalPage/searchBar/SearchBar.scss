@@ -1,0 +1,37 @@
+@import "../../../scss/vars";
+
+.journalSearchBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 7vh;
+  padding: 3vh;
+  width: 90%;
+}
+
+.search {
+  width: 90%;
+  height: 4vh;
+  padding: 1.2vh;
+  border-radius: 10px;
+  border: 2px solid $accent-color;
+  outline: none;
+}
+
+
+@media screen and (max-width: 768px){
+  .journalSearchBar {
+    flex-direction: column-reverse;
+    height: 10vh;
+    padding: 1vh;
+    width: 100%;
+  }
+
+  .search {
+    width: 90%;
+    height: 6vh;
+    margin: 1vh;
+  }
+
+}

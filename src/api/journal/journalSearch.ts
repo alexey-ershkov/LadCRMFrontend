@@ -1,9 +1,9 @@
 import consts from '../../consts'
 
 
-export default async function getJournal(page:number):Promise<any> {
+export default async function journalSearch(value: string, page:number):Promise<any> {
     return new Promise<any>((resolve,reject) => {
-        fetch(`${consts.BASE_URL}/journal?page=${page}`).then(res => {
+        fetch(`${consts.BASE_URL}/journal/search/${value}?page=${page}`).then(res => {
             if (res.ok) {
                 res.json()
                     .then(data => {

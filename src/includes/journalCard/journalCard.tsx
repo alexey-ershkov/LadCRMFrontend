@@ -56,7 +56,7 @@ function JournalCard({elem}: CardProps): JSX.Element {
             personId={elem.subInfo!.client._id}
             subId={elem.subInfo!._id}
             name={`${elem.subInfo!.client.surname} ${elem.subInfo!.client.name}`}
-            visitInfo={`Абонемент ${elem.subInfo!.subInfo.subName} Номер ${elem.subInfo!.uuid}`}
+            visitInfo={`Абонемент ${elem.subInfo!.subInfo.subName}, ${elem.subInfo!.subInfo.visitsCount}`}
             parsedDateAndTime={parseDate(elem.visitTime)}/>
     } else {
         return <InnerCard
