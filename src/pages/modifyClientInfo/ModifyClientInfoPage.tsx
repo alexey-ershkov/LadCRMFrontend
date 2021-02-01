@@ -19,6 +19,7 @@ export default function ModifyClientInfoPage(): JSX.Element {
 
     const [clientInfo, setClientInfo] = useState<Client | undefined>(undefined);
     const [isClientUuidExists, setIsClientUuidExists] = useState<boolean>(false);
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
     let {modifyId} = useParams<params>();
 
@@ -32,7 +33,7 @@ export default function ModifyClientInfoPage(): JSX.Element {
                 })
                 .catch(err => {
                     setLoading(false);
-                    alert(err);
+                    setLoginRedirect(true);
                 })
         }
     }, [modifyId])
@@ -49,7 +50,7 @@ export default function ModifyClientInfoPage(): JSX.Element {
                     setIsClientUuidExists(data.exists);
                 })
                 .catch(err => {
-                    alert(err);
+                    setLoginRedirect(true);
                 });
         }
     }
@@ -126,6 +127,10 @@ export default function ModifyClientInfoPage(): JSX.Element {
         } else {
             return (<Redirect to={'/'}/>)
         }
+    }
+
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
     }
 
     let labelClientClass = isClientUuidExists ? 'label-alert' : 'label';

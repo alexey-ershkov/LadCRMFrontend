@@ -20,24 +20,22 @@ function AddSingleVisitPage(): JSX.Element {
 
 
     const [typeInfo, setTypeInfo] = useState<SingleVisitType | undefined>(undefined);
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
-   useEffect(() => {
-       if (modifyId) {
-           setLoading(true);
-           getSingleVisitType(modifyId)
-               .then(data => {
-                   setTypeInfo(data);
-                   setLoading(false);
-               })
-               .catch(err => {
-                   setLoading(false);
-                   alert(err);
-               })
-       }
-   }, [modifyId])
-
-
-
+    useEffect(() => {
+        if (modifyId) {
+            setLoading(true);
+            getSingleVisitType(modifyId)
+                .then(data => {
+                    setTypeInfo(data);
+                    setLoading(false);
+                })
+                .catch(err => {
+                    setLoading(false);
+                    setLoginRedirect(true);
+                })
+        }
+    }, [modifyId])
 
 
     const [redirect, setRedirect] = useState(false)
@@ -79,6 +77,10 @@ function AddSingleVisitPage(): JSX.Element {
 
     if (redirect) {
         return (<Redirect to={'/settings'}/>)
+    }
+
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
     }
 
     return (<div className={'addSingleVisitWrapper'}>

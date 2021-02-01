@@ -5,10 +5,12 @@ import getArchive from "../../api/sub/getArchive";
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
 import SubCard from "../../includes/subCard/SubCard";
+import {Redirect} from "react-router-dom";
 
 function ArchivePage():JSX.Element {
     const [archive, setArchive] = useState<Array<Subscription>>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
     useEffect(() => {
         getArchive()
@@ -18,7 +20,7 @@ function ArchivePage():JSX.Element {
             })
             .catch(err => {
                 setIsLoading(false);
-                alert(err);
+                setLoginRedirect(true);
             })
     }, [])
 
@@ -30,11 +32,16 @@ function ArchivePage():JSX.Element {
         )
     }
 
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
+    }
+
     return (<div className={'archiveContainer'}>
         {archive.map((archiveElem: Subscription) => {
             return <SubCard key={archiveElem._id} sub={archiveElem}/>
         })}
     </div>)
+
 }
 
 export default ArchivePage;

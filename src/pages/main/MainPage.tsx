@@ -14,6 +14,7 @@ function MainPage(): JSX.Element {
     const [clients, setClients] = useState<Array<Client>>([])
     const [isSubs, setIsUuid] = useState<boolean>(false)
     const [isLoading, setLoading] = useState(true)
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
     useEffect(() => {
         getClients().then(
@@ -22,6 +23,9 @@ function MainPage(): JSX.Element {
                 setLoading(false);
             }
         )
+            .catch(err => {
+                setLoginRedirect(true);
+            })
     }, [])
 
     if (isLoading) {
@@ -33,6 +37,9 @@ function MainPage(): JSX.Element {
                 </div>
             </div>
         )
+    }
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
     }
 
     if (isSubs) {

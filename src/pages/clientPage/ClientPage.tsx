@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './ClientPage.scss';
-import {Link, useParams} from 'react-router-dom'
+import {Link, Redirect, useParams} from 'react-router-dom'
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
 import getClientById from "../../api/client/getClientById";
@@ -34,7 +34,7 @@ function ClientPage(): JSX.Element {
     const [subTypes, setSubTypes] = useState([]);
     const [singleVisitTypes, setSingleVisitTypes] = useState([]);
     const [clientSubs, setClientSubs] = useState<Array<Subscription>>([]);
-
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
     let {id} = useParams<params>();
 
@@ -90,7 +90,7 @@ function ClientPage(): JSX.Element {
             })
             .catch(err => {
                 setIsLoading(false);
-                alert(err);
+                setLoginRedirect(true);
             })
     }, [id])
 
@@ -102,7 +102,7 @@ function ClientPage(): JSX.Element {
             })
             .catch(err => {
                 setSubTypesLoading(false);
-                alert(err);
+                setLoginRedirect(true);
             })
     }, [isLoading])
 
@@ -114,7 +114,7 @@ function ClientPage(): JSX.Element {
             })
             .catch(err => {
                 setSingleVisitTypesLoading(false);
-                alert(err);
+                setLoginRedirect(true);
             })
     }, [isLoading])
 
@@ -145,6 +145,9 @@ function ClientPage(): JSX.Element {
     let dateOfBirth = new Date(typedClient.dateOfBirth)
     let dateOfOrder = new Date(typedClient.created)
 
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
+    }
 
     return (<div className={'clientContainer'}>
         <div className={'clientInfo'}>

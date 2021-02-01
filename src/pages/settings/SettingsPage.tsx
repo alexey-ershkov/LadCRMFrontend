@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import './SettingsPage.scss';
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import '../../scss/button.scss'
 
 function Settings():JSX.Element {
+
     return (<div className={'settingsWrapper'}>
         <Link className={'button addButton'} to={'/addSubType'}>
             Создать новый абонемент

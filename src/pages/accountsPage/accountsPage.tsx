@@ -2,13 +2,14 @@ import React, {useEffect, useState} from "react";
 import './accountsPage.scss';
 import getAccounts from "../../api/account/getAccounts";
 import Account from "../../models/account";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import deleteAccount from "../../api/account/deleteAccount";
 
-export default function AccountsPage():JSX.Element {
+export default function AccountsPage(): JSX.Element {
     const [accounts, setAccounts] = useState<Array<Account>>([]);
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
     useEffect(() => {
         getAccounts()
@@ -16,9 +17,10 @@ export default function AccountsPage():JSX.Element {
                 setAccounts(data);
             })
             .catch(err => {
-                alert(err);
+                setLoginRedirect(true);
             })
     }, [])
+
 
     const handleDelete = (event: React.MouseEvent) => {
         const del = window.confirm('Удалить аккаунт?');
@@ -41,6 +43,10 @@ export default function AccountsPage():JSX.Element {
             })
     }
 
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
+    }
+
     return (<div className={'modifyContainer'}>
         {accounts.map(account => {
             return (
@@ -49,10 +55,13 @@ export default function AccountsPage():JSX.Element {
                         {account.login}
                     </div>
                     <div className={'modifyLinks'}>
-                        <Link to={`/addAccount?modify=${account._id}`} className={'modifyLink'}><FontAwesomeIcon icon={faEdit}/></Link>
+                        <Link to={`/addAccount?modify=${account._id}`} className={'modifyLink'}><FontAwesomeIcon
+                            icon={faEdit}/></Link>
+                        {accounts.length > 1 &&
                         <div onClick={handleDelete} id={account._id} className={'modifyLink'}>
                             <FontAwesomeIcon className={'modifyIcon'} icon={faTrashAlt}/>
                         </div>
+                        }
                     </div>
                 </div>
             )

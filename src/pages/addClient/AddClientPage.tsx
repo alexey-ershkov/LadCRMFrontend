@@ -17,6 +17,7 @@ function AddClientPage(): JSX.Element {
     const [isChild, setIsChild] = useState<boolean>(false)
     const [isClientUuidExists, setIsClientUuidExists] = useState<boolean>(false);
     const [isParentUuidExists, setIsParentUuidExists] = useState<boolean>(false);
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
 
     const handleCheck = () => {
@@ -31,7 +32,7 @@ function AddClientPage(): JSX.Element {
                     setIsClientUuidExists(data.exists);
                 })
                 .catch(err => {
-                    alert(err);
+                    setLoginRedirect(true);
                 });
         }
     }
@@ -45,7 +46,7 @@ function AddClientPage(): JSX.Element {
                     setIsParentUuidExists(data.exists);
                 })
                 .catch(err => {
-                    alert(err);
+                    setLoginRedirect(true);
                 });
         }
     }
@@ -89,6 +90,10 @@ function AddClientPage(): JSX.Element {
 
     if (redirect) {
         return (<Redirect to={'/'}/>)
+    }
+
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
     }
 
     let formStatus = !isChild ? 'addClientForm' : 'addClientWithChildForm';

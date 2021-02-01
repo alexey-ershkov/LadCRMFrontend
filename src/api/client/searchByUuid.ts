@@ -3,7 +3,10 @@ import consts from '../../consts'
 
 export default async function searchClientsByUuid(value: string):Promise<any> {
     return new Promise<any>((resolve,reject) => {
-        fetch(`${consts.BASE_URL}/clients/searchUuid/${value}`).then(res => {
+        fetch(`${consts.BASE_URL}/clients/searchUuid/${value}`, {
+            mode: 'cors',
+            credentials: 'include',
+        }).then(res => {
             if (res.ok) {
                 res.json()
                     .then(data => {

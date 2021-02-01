@@ -3,7 +3,10 @@ import consts from '../../consts'
 
 export default async function getAccounts():Promise<any> {
     return new Promise<any>((resolve,reject) => {
-        fetch(`${consts.BASE_URL}/accounts`).then(res => {
+        fetch(`${consts.BASE_URL}/accounts`, {
+            mode: 'cors',
+            credentials: 'include',
+        }).then(res => {
             if (res.ok) {
                 res.json()
                     .then(data => {

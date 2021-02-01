@@ -17,6 +17,7 @@ function AddSubPage(): JSX.Element {
     const [redirect, setRedirect] = useState(false)
     const [loading, setLoading] = useState(false)
 
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
     const history = useHistory();
     const params = new URLSearchParams(history.location.search);
     let modifyId = params.get('modify');
@@ -34,7 +35,7 @@ function AddSubPage(): JSX.Element {
                 })
                 .catch(err => {
                     setLoading(false);
-                    alert(err);
+                    setLoginRedirect(true);
                 })
         }
     }, [modifyId])
@@ -49,7 +50,6 @@ function AddSubPage(): JSX.Element {
     }
 
     const handleCallback = () => {
-        // setLoading(true)
 
         subModel.isInfinite = isInf;
 
@@ -95,6 +95,10 @@ function AddSubPage(): JSX.Element {
 
     if (redirect) {
         return (<Redirect to={'/settings'}/>)
+    }
+
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
     }
 
     return (<div className={'addSubWrapper'}>

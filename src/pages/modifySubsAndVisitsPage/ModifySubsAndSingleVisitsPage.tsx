@@ -5,10 +5,12 @@ import getSubTypes from "../../api/sub/getSubTypes";
 import SingleVisitType from "../../models/singleVisitType";
 import getSingleVisitTypes from "../../api/singleVisit/getSingleVisitTypes";
 import ModifyCard from "./modifyCard/modifyCard";
+import {Redirect} from "react-router-dom";
 
 export default function ModifySubsAndSingleVisitsPage():JSX.Element {
 
     const [types, setTypes] = useState<Array<SubType & SingleVisitType>>([]);
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
 
     useEffect(() => {
@@ -19,9 +21,13 @@ export default function ModifySubsAndSingleVisitsPage():JSX.Element {
                 setTypes([...promiseArr[0], ...promiseArr[1]])
             })
             .catch(err => {
-                alert(err)
+                setLoginRedirect(true);
             })
     }, [])
+
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
+    }
 
     return (<div className={'modifyContainer'}>
         {types.map((value) => {

@@ -9,6 +9,8 @@ export default async function saveAccount(account: Account):Promise<string> {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
+            mode: 'cors',
+            credentials: 'include',
             body: JSON.stringify(account)
         }).then(res => {
             if (res.ok) {

@@ -3,7 +3,10 @@ import consts from '../../consts'
 
 export default async function getSubTypes():Promise<any> {
     return new Promise<any>((resolve,reject) => {
-        fetch(`${consts.BASE_URL}/subTypes`).then(res => {
+        fetch(`${consts.BASE_URL}/subTypes`, {
+            mode: 'cors',
+            credentials: 'include',
+        }).then(res => {
             if (res.ok) {
                 res.json()
                     .then(data => {

@@ -9,6 +9,8 @@ export default async function saveSingleVisitType(visitType: SingleVisitType):Pr
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
+            mode: 'cors',
+            credentials: 'include',
             body: JSON.stringify(visitType)
         }).then(res => {
             if (res.ok) {

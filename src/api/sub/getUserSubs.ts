@@ -3,7 +3,10 @@ import consts from '../../consts'
 
 export default async function getUserSubs(userId: string):Promise<any> {
     return new Promise<any>((resolve,reject) => {
-        fetch(`${consts.BASE_URL}/getUserSubs/${userId}`).then(res => {
+        fetch(`${consts.BASE_URL}/getUserSubs/${userId}`, {
+            mode: 'cors',
+            credentials: 'include',
+        }).then(res => {
             if (res.ok) {
                 res.json()
                     .then(data => {

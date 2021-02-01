@@ -8,6 +8,7 @@ import JournalCard from "../../includes/journalCard/journalCard";
 import SearchBar from "./searchBar/SearchBar";
 import ReactPaginate from 'react-paginate';
 import journalSearch from "../../api/journal/journalSearch";
+import {Redirect} from "react-router-dom";
 
 interface BackendData {
     pages: number,
@@ -26,6 +27,7 @@ function JournalPage(): JSX.Element {
     const [journal, setJournal] = useState<Array<Journal>>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [searchData, setSearchData] = useState<string>('');
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
     useEffect(() => {
         if (searchData === '') {
@@ -37,7 +39,7 @@ function JournalPage(): JSX.Element {
                 })
                 .catch(err => {
                     setIsLoading(false);
-                    alert(err);
+                    setLoginRedirect(true);
                 })
         } else {
             journalSearch(searchData, currPage)
@@ -48,7 +50,7 @@ function JournalPage(): JSX.Element {
                 })
                 .catch(err => {
                     setIsLoading(false);
-                    alert(err);
+                    setLoginRedirect(true);
                 })
         }
     }, [currPage, searchData])
@@ -59,6 +61,9 @@ function JournalPage(): JSX.Element {
                 <PulseLoader color={consts.ACCENT_COLOR_HEX} loading={true}/>
             </div>
         )
+    }
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
     }
 
     if (journal.length === 0) {

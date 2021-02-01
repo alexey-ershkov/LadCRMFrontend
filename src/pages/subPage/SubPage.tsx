@@ -1,7 +1,7 @@
 import React, {useState, useEffect, FormEvent} from "react";
 import './SubPage.scss';
 import Subscription from "../../models/subscription";
-import {useParams, Link} from "react-router-dom";
+import {useParams, Link, Redirect} from "react-router-dom";
 import getSubInfo from "../../api/sub/getSubInfo";
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
@@ -16,6 +16,7 @@ interface params {
 function SubPage(): JSX.Element {
     const [subInfo, setSubInfo] = useState<Subscription | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
 
     const handleSubVisit = (event: FormEvent) => {
@@ -35,7 +36,7 @@ function SubPage(): JSX.Element {
                         setSubInfo(data);
                     })
                     .catch(err => {
-                        alert(err);
+                        setLoginRedirect(true);
                     })
             })
             .catch(err => {
@@ -56,7 +57,7 @@ function SubPage(): JSX.Element {
                         setSubInfo(data);
                     })
                     .catch(err => {
-                        alert(err);
+                        setLoginRedirect(true);
                     })
             })
             .catch(err => {
@@ -80,7 +81,7 @@ function SubPage(): JSX.Element {
             })
             .catch(err => {
                 setIsLoading(false);
-                alert(err);
+                setLoginRedirect(true);
             })
     }, [id])
 
@@ -91,6 +92,10 @@ function SubPage(): JSX.Element {
                 <PulseLoader color={consts.ACCENT_COLOR_HEX} loading={true}/>
             </div>
         )
+    }
+
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
     }
 
     if (subInfo !== undefined) {

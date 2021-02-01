@@ -15,6 +15,7 @@ import ModifySubsAndSingleVisitsPage from "./pages/modifySubsAndVisitsPage/Modif
 import ModifyClientInfoPage from './pages/modifyClientInfo/ModifyClientInfoPage';
 import AddAccountPage from "./pages/addAccountPage/addAccountPage";
 import AccountsPage from "./pages/accountsPage/accountsPage";
+import LoginPage from "./pages/loginPage/loginPage";
 
 function App() {
     return (
@@ -24,6 +25,9 @@ function App() {
                 <Switch>
                     <Route path={'/'} exact>
                         <MainPage/>
+                    </Route>
+                    <Route path={'/login'}>
+                        <LoginPage/>
                     </Route>
                     <Route path={'/addClient'}>
                         <AddClientPage/>

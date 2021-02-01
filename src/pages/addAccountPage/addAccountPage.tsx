@@ -8,14 +8,16 @@ import saveAccount from "../../api/account/saveAcoount";
 import getAccountById from "../../api/account/getAccountById";
 import Account from "../../models/account";
 
-export default function AddAccountPage():JSX.Element {
+export default function AddAccountPage(): JSX.Element {
     const [loading, setLoading] = useState(false)
     let history = useHistory()
     let params = new URLSearchParams(history.location.search)
     let modifyId = params.get('modify');
 
 
-    const [loginInfo, setLoginInfo] = useState<Account|undefined>(undefined);
+    const [loginInfo, setLoginInfo] = useState<Account | undefined>(undefined);
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
+
 
     useEffect(() => {
         if (modifyId) {
@@ -27,13 +29,10 @@ export default function AddAccountPage():JSX.Element {
                 })
                 .catch(err => {
                     setLoading(false);
-                    alert(err);
+                    setLoginRedirect(true);
                 })
         }
     }, [modifyId])
-
-
-
 
 
     const [redirect, setRedirect] = useState(false)
@@ -76,6 +75,10 @@ export default function AddAccountPage():JSX.Element {
 
     if (redirect) {
         return (<Redirect to={'/accounts'}/>)
+    }
+
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
     }
 
     return (<div className={'addSingleVisitWrapper'}>

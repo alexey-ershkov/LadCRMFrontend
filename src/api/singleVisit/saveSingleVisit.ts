@@ -9,6 +9,8 @@ export default async function saveSingleVisit(visit: SingleVisit):Promise<string
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
+            mode: 'cors',
+            credentials: 'include',
             body: JSON.stringify(visit)
         }).then(res => {
             if (res.ok) {

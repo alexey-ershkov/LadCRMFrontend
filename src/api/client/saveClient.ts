@@ -6,6 +6,8 @@ export default async function saveClient(client: Client):Promise<string> {
     return new Promise<string>((resolve,reject) => {
         fetch(`${consts.BASE_URL}/addClient`, {
             method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
