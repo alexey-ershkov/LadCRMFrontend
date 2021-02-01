@@ -1,9 +1,9 @@
 import consts from '../../consts'
 
 
-export default async function getArchive():Promise<any> {
+export default async function getArchive(page: number):Promise<any> {
     return new Promise<any>((resolve,reject) => {
-        fetch(`${consts.BASE_URL}/archive`, {
+        fetch(`${consts.BASE_URL}/archive?page=${page}`, {
             mode: 'cors',
             credentials: 'include',
         }).then(res => {
