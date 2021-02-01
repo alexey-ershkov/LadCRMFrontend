@@ -12,6 +12,7 @@ import {Switch, Route} from 'react-router-dom';
 import JournalPage from "./pages/journalPage/journalPage";
 import ArchivePage from "./pages/archivePage/archivePage";
 import ModifySubsAndSingleVisitsPage from "./pages/modifySubsAndVisitsPage/ModifySubsAndSingleVisitsPage";
+import ModifyClientInfoPage from './pages/modifyClientInfo/ModifyClientInfoPage';
 
 function App() {
     return (
@@ -31,8 +32,11 @@ function App() {
                     <Route path={'/addSubType'}>
                         <AddSubPage/>
                     </Route>
-                    <Route path={'/modifySubsAndSingleVisits'}>
+                    <Route path={'/subsAndSingleVisits'}>
                         <ModifySubsAndSingleVisitsPage/>
+                    </Route>
+                    <Route path={'/modifyClient/:modifyId'}>
+                        <ModifyClientInfoPage/>
                     </Route>
                     <Route path={'/addSingleVisitType'}>
                         <AddSingleVisitPage/>

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './ClientPage.scss';
-import {useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
 import getClientById from "../../api/client/getClientById";
@@ -17,6 +17,8 @@ import sellSub from "../../api/sub/sellSub";
 import getUserSubs from "../../api/sub/getUserSubs";
 import Subscription from "../../models/subscription";
 import ClientSubCard from "./subCard/clientSubCard";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit} from "@fortawesome/free-solid-svg-icons";
 
 interface params {
     id: string
@@ -35,6 +37,7 @@ function ClientPage(): JSX.Element {
 
 
     let {id} = useParams<params>();
+
 
     const handleSingleVisitOrder = () => {
         setIsLoading(true);
@@ -80,12 +83,6 @@ function ClientPage(): JSX.Element {
     const inputSellSub = useForm(handleSellSub)
 
     useEffect(() => {
-        if (id === undefined) {
-            return;
-        }
-        if (!isLoading) {
-            return;
-        }
         getClientById(id)
             .then(data => {
                 setClient(data);
@@ -95,7 +92,7 @@ function ClientPage(): JSX.Element {
                 setIsLoading(false);
                 alert(err);
             })
-    }, [id, client, isLoading])
+    }, [id])
 
     useEffect(() => {
         getSubTypes()
@@ -149,13 +146,12 @@ function ClientPage(): JSX.Element {
     let dateOfOrder = new Date(typedClient.created)
 
 
-
     return (<div className={'clientContainer'}>
         <div className={'clientInfo'}>
             <div className={'clientName'}>
                 <div>{typedClient.surname} {typedClient.name} {typedClient.lastName}</div>
                 {typedClient.isChild &&
-                    <a className={'clientRef'} href={`/client/${typedClient.parentId!}`}>Ссылка на родителя</a>
+                <Link className={'clientRef'} to={`/client/${typedClient.parentId!}`}>Ссылка на родителя</Link>
                 }
             </div>
             <div className={'clientContacts'}>
@@ -175,8 +171,13 @@ function ClientPage(): JSX.Element {
                     <p className={'clientSubTitle'}>В клубе с:  &nbsp; </p>  {dateOfOrder.toLocaleDateString()}
                 </div>
                 <div className={'clientContactInfo'}>
-                    <p className={'clientSubTitle'}>Статус:  &nbsp; </p>  {typedClient.isChild?'Ребенок':'Взрослый'}
+                    <p className={'clientSubTitle'}>Статус:  &nbsp; </p>  {typedClient.isChild ? 'Ребенок' : 'Взрослый'}
                 </div>
+            </div>
+            <div>
+                <Link to={`/modifyClient/${typedClient._id}`} className={'clientModifyLink'}>
+                    <FontAwesomeIcon icon={faEdit} className={'clientModifyIcon'}/>
+                </Link>
             </div>
             <div className={'mobileArrow'}>
                 ↓

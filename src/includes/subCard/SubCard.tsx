@@ -1,13 +1,14 @@
 import React from "react";
 import './SubCard.scss';
 import Subscription from "../../models/subscription";
+import { Link } from "react-router-dom";
 
 interface ISubCard {
     sub: Subscription
 }
 
 function SubCard({sub}: ISubCard): JSX.Element {
-    return (<a className={'SubCardContainer'} href={`/subscription/${sub._id}`}>
+    return (<Link className={'SubCardContainer'} to={`/subscription/${sub._id}`}>
         <div className={'SubCardElem'}>
             Абонемент номер {sub.uuid}
         </div>
@@ -17,7 +18,7 @@ function SubCard({sub}: ISubCard): JSX.Element {
                 <div className={'infoSectionElement'}><p className={'title'}>Посещений осталось:</p> &nbsp; {sub.visitsLeft}</div> :
                 <div className={'infoSectionElement'}>Безлимитный</div>}
         </div>
-    </a>)
+    </Link>)
 }
 
 export default SubCard;

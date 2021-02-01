@@ -22,7 +22,7 @@ export default function ModifySubsAndSingleVisitsPage():JSX.Element {
                 alert(err)
             })
     }, [])
-    console.log(types)
+
     return (<div className={'modifyContainer'}>
         {types.map((value) => {
             return <ModifyCard updater={setTypes} key={value._id} type={value}/>

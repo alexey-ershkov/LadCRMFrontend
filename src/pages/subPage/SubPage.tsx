@@ -1,7 +1,7 @@
 import React, {useState, useEffect, FormEvent} from "react";
 import './SubPage.scss';
 import Subscription from "../../models/subscription";
-import {useParams} from "react-router-dom";
+import {useParams, Link} from "react-router-dom";
 import getSubInfo from "../../api/sub/getSubInfo";
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
@@ -124,9 +124,9 @@ function SubPage(): JSX.Element {
                         </div>
                         <div className={'subscriptionCost clientInfoPart'}>
                             <p className={'clientTitle'}>Клиент:&nbsp;</p>
-                            <a href={`/client/${subInfo.client._id}`} className={'clientRef'}>
+                            <Link to={`/client/${subInfo.client._id}`} className={'clientRef'}>
                                 {subInfo.client.surname} {subInfo.client.name}
-                            </a>
+                            </Link>
                         </div>
 
                         {!subInfo.isInfinite &&

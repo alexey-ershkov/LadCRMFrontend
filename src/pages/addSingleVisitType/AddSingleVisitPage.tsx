@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './AddSingleVisitPage.scss';
 import '../../scss/form.scss';
 import '../../scss/button.scss';
@@ -21,15 +21,22 @@ function AddSingleVisitPage(): JSX.Element {
 
     const [typeInfo, setTypeInfo] = useState<SingleVisitType | undefined>(undefined);
 
-    if (modifyId && typeInfo === undefined) {
-        getSingleVisitType(modifyId)
-            .then(data => {
-                setTypeInfo(data);
-            })
-            .catch(err => {
-                alert(err);
-            })
-    }
+   useEffect(() => {
+       if (modifyId) {
+           setLoading(true);
+           getSingleVisitType(modifyId)
+               .then(data => {
+                   setTypeInfo(data);
+                   setLoading(false);
+               })
+               .catch(err => {
+                   setLoading(false);
+                   alert(err);
+               })
+       }
+   }, [modifyId])
+
+
 
 
 

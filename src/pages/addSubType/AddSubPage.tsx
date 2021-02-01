@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './AddSubPage.scss';
 import '../../scss/form.scss';
 import '../../scss/button.scss';
@@ -21,18 +21,23 @@ function AddSubPage(): JSX.Element {
     const params = new URLSearchParams(history.location.search);
     let modifyId = params.get('modify');
 
-    if (modifyId && typeInfo === undefined) {
-        getSubType(modifyId)
-            .then(data => {
-                setTypeInfo(data);
-                if (data.isInfinite) {
-                    setIsInf(true);
-                }
-            })
-            .catch(err => {
-                alert(err);
-            })
-    }
+    useEffect(() => {
+        if (modifyId) {
+            setLoading(true);
+            getSubType(modifyId)
+                .then(data => {
+                    setTypeInfo(data);
+                    if (data.isInfinite) {
+                        setIsInf(true);
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    setLoading(false);
+                    alert(err);
+                })
+        }
+    }, [modifyId])
 
 
     const handleCheck = () => {

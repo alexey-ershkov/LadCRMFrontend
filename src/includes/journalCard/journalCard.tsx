@@ -1,6 +1,7 @@
 import React from "react";
 import './journalCard.scss';
 import Journal from "../../models/journal";
+import { Link } from "react-router-dom";
 
 interface CardProps {
     elem: Journal
@@ -42,8 +43,8 @@ function parseDate(dateString: string): string {
 
 function InnerCard({name, visitInfo, parsedDateAndTime, personId, subId}: InnerCardProps): JSX.Element {
     return (<div className={'cardContainer'}>
-        <a className={'journalCardClient'} href={`/client/${personId}`}>{name}</a>
-        {subId ? <a className={'journalCardInfo'} href={`/subscription/${subId!}`}>{visitInfo}</a> :
+        <Link className={'journalCardClient'} to={`/client/${personId}`}>{name}</Link>
+        {subId ? <Link className={'journalCardInfo'} to={`/subscription/${subId!}`}>{visitInfo}</Link> :
             <div className={'journalCardInfo'}>{visitInfo}</div>}
         <div className={'journalCardDate'}>{parsedDateAndTime}</div>
     </div>)

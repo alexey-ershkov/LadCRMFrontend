@@ -18,6 +18,7 @@ function AddClientPage(): JSX.Element {
     const [isClientUuidExists, setIsClientUuidExists] = useState<boolean>(false);
     const [isParentUuidExists, setIsParentUuidExists] = useState<boolean>(false);
 
+
     const handleCheck = () => {
         setIsChild(!isChild);
     }

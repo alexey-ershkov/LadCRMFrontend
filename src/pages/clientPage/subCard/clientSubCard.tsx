@@ -1,6 +1,7 @@
 import React from "react";
 import './subCard.scss';
 import Subscription from "../../../models/subscription";
+import { Link } from "react-router-dom";
 
 interface ISubCardProps {
     sub: Subscription
@@ -11,7 +12,7 @@ function ClientSubCard({sub}: ISubCardProps): JSX.Element {
     const dateTo = new Date(sub.dateTo);
 
 
-    return (<a href={`/subscription/${sub._id}`} className={'subCard'}>
+    return (<Link className={'subCard'} to={`/subscription/${sub._id}`} >
         <div className={'subName'}>
             {sub.subInfo.subName}
         </div>
@@ -27,7 +28,7 @@ function ClientSubCard({sub}: ISubCardProps): JSX.Element {
                 Действителен до: {dateTo.toLocaleDateString()}
             </div>
         </div>
-    </a>)
+    </Link>)
 }
 
 export default ClientSubCard;

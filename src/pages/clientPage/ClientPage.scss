@@ -134,6 +134,25 @@
   display: none;
 }
 
+.clientModifyLink {
+  color: $accent-color;
+
+  position: absolute;
+  top: 2.5vh;
+  right: 2.5vh;
+  height: 5vh;
+  width: 5vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clientModifyIcon {
+  height: 100%;
+  width: 100% !important;
+}
+
 
 @media screen and (max-width: 1200px) {
   .clientContainer {
@@ -182,6 +201,10 @@
     flex-direction: column;
     height: 70%;
 
+  }
+
+  .clientModifyLink {
+    top: 16vh;
   }
 
   .sellSelect {
