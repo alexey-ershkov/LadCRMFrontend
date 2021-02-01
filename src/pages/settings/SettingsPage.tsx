@@ -11,8 +11,14 @@ function Settings():JSX.Element {
         <Link className={'button addButton'} to={'/addSingleVisitType'}>
             Создать новый тип посещения
         </Link>
+        <Link className={'button addButton'} to={'/addAccount'}>
+            Создать новый аккаунт
+        </Link>
         <Link className={'button addButton'} to={'/subsAndSingleVisits'}>
             Абонементы и типы посещений
+        </Link>
+        <Link className={'button addButton'} to={'/accounts'}>
+            Аккаунты
         </Link>
     </div>);
 }

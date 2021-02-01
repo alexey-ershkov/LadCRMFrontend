@@ -13,6 +13,8 @@ import JournalPage from "./pages/journalPage/journalPage";
 import ArchivePage from "./pages/archivePage/archivePage";
 import ModifySubsAndSingleVisitsPage from "./pages/modifySubsAndVisitsPage/ModifySubsAndSingleVisitsPage";
 import ModifyClientInfoPage from './pages/modifyClientInfo/ModifyClientInfoPage';
+import AddAccountPage from "./pages/addAccountPage/addAccountPage";
+import AccountsPage from "./pages/accountsPage/accountsPage";
 
 function App() {
     return (
@@ -52,6 +54,12 @@ function App() {
                     </Route>
                     <Route path={'/archive'}>
                         <ArchivePage/>
+                    </Route>
+                    <Route path={'/addAccount'}>
+                        <AddAccountPage/>
+                    </Route>
+                    <Route path={'/accounts'}>
+                        <AccountsPage/>
                     </Route>
                 </Switch>
             </div>
