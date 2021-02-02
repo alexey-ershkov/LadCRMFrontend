@@ -24,6 +24,7 @@ function MainPage(): JSX.Element {
             }
         )
             .catch(err => {
+                setLoading(false);
                 setLoginRedirect(true);
             })
     }, [])
