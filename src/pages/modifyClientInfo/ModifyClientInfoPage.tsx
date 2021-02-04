@@ -5,7 +5,7 @@ import useForm from "../../hooks/useForm";
 import Client from "../../models/client";
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
-import {Redirect, useHistory, Link, useParams} from "react-router-dom";
+import {Redirect, Link, useParams} from "react-router-dom";
 import getClientById from "../../api/client/getClientById";
 import modifyClient from "../../api/client/modifyClient";
 
@@ -87,6 +87,9 @@ export default function ModifyClientInfoPage(): JSX.Element {
         }
         if (!modifyClientModel.uuid) {
             modifyClientModel.uuid = clientInfo.uuid;
+        }
+        if (!modifyClientModel.orderNumber) {
+            modifyClientModel.orderNumber = clientInfo.orderNumber;
         }
 
         modifyClientModel.uuidStr = String(modifyClientModel.uuid);
@@ -216,6 +219,18 @@ export default function ModifyClientInfoPage(): JSX.Element {
                        defaultValue={clientInfo ? clientInfo.uuid : ''}
                        placeholder={'1234567'}
                        required onChange={handleClientUuid}/>
+            </div>
+            <div className={`inputSection inputSectionAddClient`}>
+                <label className={`label addClientLabel`} htmlFor={'orderNumber'}>
+                    {'Номер договора'}
+                </label>
+                <input className={`input addClientInput`}
+                       name={'orderNumber'}
+                       id={'orderNumber'}
+                       type={'text'}
+                       defaultValue={clientInfo ? clientInfo.orderNumber : ''}
+                       placeholder={'1341247'}
+                       required onChange={handleInputChange}/>
             </div>
             <button className={'button addClientFormButton'}>Изменть данные клиента</button>
         </form>

@@ -153,10 +153,24 @@
   width: 100% !important;
 }
 
+.addChildLink {
+  color: $accent-color;
+
+  position: absolute;
+  top: 10vh;
+  right: 2.5vh;
+  height: 5vh;
+  width: 5vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 @media screen and (max-width: 1200px) {
   .clientContainer {
-    overflow: scroll;
+    overflow: auto;
     bottom: 2vh;
     left: 5vw;
     right: 5vw;
@@ -204,7 +218,11 @@
   }
 
   .clientModifyLink {
-    top: 16vh;
+    top: 12vh;
+  }
+
+  .addChildLink {
+    top: 20vh;
   }
 
   .sellSelect {

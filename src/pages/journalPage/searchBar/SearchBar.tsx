@@ -9,11 +9,11 @@ interface SearchBarProps {
 function SearchBar({searchDataUpdater}:SearchBarProps): JSX.Element {
 
     const handleSearchInput = () => {
-        const searchInput = document.getElementById('search') as HTMLInputElement
+        const searchInput = document.getElementById('journalSearch') as HTMLInputElement
         searchDataUpdater(searchInput.value);
     }
 
-    const searchInput = document.getElementById('search') as HTMLInputElement
+    const searchInput = document.getElementById('journalSearch') as HTMLInputElement
     useEffect(() => {
         if (searchInput) {
             searchInput.value = ''
@@ -22,7 +22,7 @@ function SearchBar({searchDataUpdater}:SearchBarProps): JSX.Element {
 
     return (
         <div className={'journalSearchBar'}>
-            <input className={'search'} id={'search'} placeholder={'Введите имя клиента или название посещения'}
+            <input className={'journalSearch'} id={'journalSearch'} placeholder={'Введите имя клиента или название посещения'}
                    onChange={handleSearchInput}/>
         </div>
     )

@@ -10,7 +10,7 @@ function Navbar(): JSX.Element {
 
     let button = !mobileIsOpen ?  <FontAwesomeIcon icon={faBars}/> : <FontAwesomeIcon icon={faTimes}/>;
     let visibleClass = mobileIsOpen ? 'visible' : 'hidden';
-    let navbarActiveClass = mobileIsOpen ? 'active' : ''
+    let navbarActiveClass = mobileIsOpen ? 'activeNavbar' : ''
     let handleButtonClick = () => handleMobileButtonClick(false)
 
     return (

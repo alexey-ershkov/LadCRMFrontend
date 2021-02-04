@@ -8,6 +8,7 @@ import consts from "../../consts";
 import saveSubVisit from "../../api/sub/saveSubVisit";
 import SubVisit from "../../models/subVisit";
 import addToArchive from "../../api/sub/archiveSub";
+import addVisitToSub from "../../api/sub/addVisitToSub";
 
 interface params {
     id: string
@@ -18,6 +19,26 @@ function SubPage(): JSX.Element {
     const [isLoading, setIsLoading] = useState(true);
     const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
+    const handleAddVisit = (event: FormEvent) => {
+        event.preventDefault();
+        setIsLoading(true);
+
+        addVisitToSub(id)
+            .then(() => {
+                setIsLoading(false);
+                getSubInfo(id)
+                    .then(data => {
+                        setSubInfo(data);
+                    })
+                    .catch(err => {
+                        alert(err);
+                    })
+            })
+            .catch(err => {
+                setIsLoading(false);
+                alert(err);
+            })
+    }
 
     const handleSubVisit = (event: FormEvent) => {
         event.preventDefault();
@@ -101,7 +122,12 @@ function SubPage(): JSX.Element {
     if (subInfo !== undefined) {
 
         const dateFrom = new Date(subInfo.dateFrom);
-        const dateTo = new Date(subInfo.dateTo)
+        const dateTo = new Date(subInfo.dateTo);
+        let lastVisited = new Date();
+        if (subInfo.lastVisited) {
+            lastVisited = new Date(subInfo.lastVisited);
+        }
+
         return (<div className={'clientContainer'}>
             <div className={'subscription'}>
                 <div className={'subscriptionTitle'}>
@@ -119,6 +145,11 @@ function SubPage(): JSX.Element {
                         <div className={'subscriptionTo clientMainPart'}>
                             <p className={'clientMainTitle'}>Действителен до: </p>  {dateTo.toLocaleDateString()}
                         </div>
+                        {subInfo.lastVisited &&
+                        <div className={'subscriptionTo clientMainPart'}>
+                            <p className={'clientMainTitle'}>Последнее посещение: </p>  {lastVisited.toLocaleDateString()}
+                        </div>
+                        }
                     </div>
                     <div className={'subscriptionAdditionalInfo '}>
                         <div className={'subscriptionFrom clientInfoPart'}>
@@ -152,6 +183,11 @@ function SubPage(): JSX.Element {
                         </button>
                     </form>
                 }
+                <form className={'subscriptionClientInfo'}  onSubmit={handleAddVisit}>
+                    <button className={'button regVisitButton'}>
+                        Добавить занятие к абонементу
+                    </button>
+                </form>
                 <form className={'subscriptionClientInfo'} onSubmit={handleArchiveAdd}>
                     <button className={'button regVisitButton'}>
                         {!subInfo.isArchived ? "Архивировать" : "Вернуть из архива"}

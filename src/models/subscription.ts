@@ -10,5 +10,6 @@ export default interface Subscription {
     dateTo: Date,
     isArchived: boolean,
     isInfinite: boolean,
-    visitsLeft?: number
+    visitsLeft?: number,
+    lastVisited?: Date
 }

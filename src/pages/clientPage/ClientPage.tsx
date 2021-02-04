@@ -18,7 +18,7 @@ import getUserSubs from "../../api/sub/getUserSubs";
 import Subscription from "../../models/subscription";
 import ClientSubCard from "./subCard/clientSubCard";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 
 interface params {
     id: string
@@ -180,6 +180,9 @@ function ClientPage(): JSX.Element {
             <div>
                 <Link to={`/modifyClient/${typedClient._id}`} className={'clientModifyLink'}>
                     <FontAwesomeIcon icon={faEdit} className={'clientModifyIcon'}/>
+                </Link>
+                <Link to={`/addClient?addChildTo=${typedClient._id}`} className={'addChildLink'}>
+                    <FontAwesomeIcon icon={faUserPlus} className={'clientModifyIcon'}/>
                 </Link>
             </div>
             <div className={'mobileArrow'}>

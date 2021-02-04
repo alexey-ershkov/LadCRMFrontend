@@ -1,14 +1,16 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import './AddClientPage.scss';
 import '../../scss/button.scss'
 import '../../scss/form.scss';
 import useForm from "../../hooks/useForm";
 import Client from "../../models/client";
 import saveClient from "../../api/client/saveClient";
-import {Redirect} from 'react-router-dom';
+import {Redirect, useHistory} from 'react-router-dom';
 import PulseLoader from 'react-spinners/PulseLoader';
 import consts from "../../consts";
 import checkClientUuid from "../../api/client/checkUuid";
+import getClientById from "../../api/client/getClientById";
+import addChild from "../../api/client/addChild";
 
 const today = new Date().toISOString().split("T")[0];
 
@@ -18,6 +20,26 @@ function AddClientPage(): JSX.Element {
     const [isClientUuidExists, setIsClientUuidExists] = useState<boolean>(false);
     const [isParentUuidExists, setIsParentUuidExists] = useState<boolean>(false);
     const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
+    const [parentInfo, setParentInfo] = useState<Client | undefined>(undefined);
+    const [parentRedirect, setParentRedirect] = useState<string|undefined>(undefined);
+
+
+    const history = useHistory();
+    const params = new URLSearchParams(history.location.search);
+    let parentId = params.get('addChildTo');
+
+    useEffect(() => {
+        if (parentId) {
+            getClientById(parentId)
+                .then(data => {
+                    setParentInfo(data);
+                    setIsChild(true);
+                })
+                .catch(() => {
+                    setLoginRedirect(true);
+                })
+        }
+    }, [parentId])
 
 
     const handleCheck = () => {
@@ -56,25 +78,48 @@ function AddClientPage(): JSX.Element {
             alert('Введите уникальный номер для клиента');
             return;
         }
-        setLoading(true)
+        setLoading(true);
+
         const created = document.getElementById('created') as HTMLInputElement;
         addClientModel.created = new Date(created.value);
         addClientModel.isChild = isChild;
         addClientModel.uuidStr = String(addClientModel.uuid);
-        if (addClientModel.isChild) {
-            addClientModel.parentUuidStr = String(addClientModel.parentUuid);
-        }
         let form = document.getElementById('addClientForm') as HTMLFormElement;
-        saveClient(addClientModel)
-            .then(() => {
-                setLoading(false)
-                setRedirect(true)
-                form.reset();
-            })
-            .catch(err => {
-                setLoading(false)
-                alert(err)
-            })
+
+        if (parentInfo) {
+            if (!addClientModel.phone) {
+                addClientModel.phone = parentInfo.phone;
+            }
+            if (!addClientModel.orderNumber) {
+                addClientModel.orderNumber = parentInfo.orderNumber;
+            }
+            addClientModel.parentId = parentId!;
+            addChild(addClientModel)
+                .then(id => {
+                    setParentRedirect(id);
+                    setLoading(false);
+                })
+                .catch(err => {
+                    setLoading(false);
+                    alert(err);
+                })
+        } else {
+
+            if (addClientModel.isChild) {
+                addClientModel.parentUuidStr = String(addClientModel.parentUuid);
+            }
+
+            saveClient(addClientModel)
+                .then(() => {
+                    setLoading(false)
+                    setRedirect(true)
+                    form.reset();
+                })
+                .catch(err => {
+                    setLoading(false)
+                    alert(err)
+                })
+        }
     }
 
     const [loading, setLoading] = useState(false)
@@ -96,12 +141,23 @@ function AddClientPage(): JSX.Element {
         return <Redirect to={'/login'}/>
     }
 
+    if (parentRedirect) {
+        return <Redirect to={`/client/${parentRedirect}`}/>
+    }
+
     let formStatus = !isChild ? 'addClientForm' : 'addClientWithChildForm';
 
     let labelClientClass = isClientUuidExists ? 'label-alert' : 'label';
     let inputClientClass = isClientUuidExists ? 'input-alert' : 'input';
-    let labelParentClass = isParentUuidExists ? 'label-alert' : 'label';
-    let inputParentClass = isParentUuidExists ? 'input-alert' : 'input';
+    let labelParentClass = isParentUuidExists && !parentInfo ? 'label-alert' : 'label';
+    let inputParentClass = isParentUuidExists && !parentInfo ? 'input-alert' : 'input';
+
+    let parentDateOfBirth = new Date();
+    let createdDate = new Date();
+    if (parentInfo) {
+        parentDateOfBirth = new Date(parentInfo.dateOfBirth);
+        createdDate = new Date(parentInfo.created);
+    }
 
     return (<div className={'clientFormContainer'}>
         <form id={'addClientForm'} className={`${formStatus} form`} onSubmit={handleSubmit}>
@@ -170,6 +226,7 @@ function AddClientPage(): JSX.Element {
                            name={'parentSurname'}
                            id={'parentSurname'}
                            type={'text'}
+                           defaultValue={parentInfo ? parentInfo.surname : ''}
                            placeholder={'Введите фамилию'}
                            required onChange={handleInputChange}/>
                 </div>
@@ -181,6 +238,7 @@ function AddClientPage(): JSX.Element {
                            name={'parentName'}
                            id={'parentName'}
                            type={'text'}
+                           defaultValue={parentInfo ? parentInfo.name : ''}
                            placeholder={'Введите имя'}
                            required onChange={handleInputChange}/>
                 </div>
@@ -192,6 +250,7 @@ function AddClientPage(): JSX.Element {
                            name={'parentLastName'}
                            id={'parentLastName'}
                            type={'text'}
+                           defaultValue={parentInfo ? parentInfo.lastName : ''}
                            placeholder={'Введите отчество'}
                            required onChange={handleInputChange}/>
                 </div>
@@ -202,17 +261,19 @@ function AddClientPage(): JSX.Element {
                     <input className={`input addClientInput`}
                            name={'parentDateOfBirth'}
                            id={'parentDateOfBirth'}
+                           defaultValue={parentInfo ? parentDateOfBirth.toISOString().substr(0, 10) : ''}
                            type={'date'}
                            max={today}
                            required onChange={handleInputChange}/>
                 </div>
                 <div className={`inputSection inputSectionAddClient`}>
                     <label className={`${labelParentClass} addClientLabel`} htmlFor={'parentUuid'}>
-                        {isParentUuidExists? 'Такой номер уже существует' : 'Номер родителя'}
+                        {isParentUuidExists && !parentInfo ? 'Такой номер уже существует' : 'Номер родителя'}
                     </label>
                     <input className={`${inputParentClass} addClientInput`}
                            name={'parentUuid'}
                            id={'parentUuid'}
+                           defaultValue={parentInfo ? parentInfo.uuid : ''}
                            type={'number'}
                            placeholder={'1234567'}
                            required onChange={handleParentUuid}/>
@@ -229,6 +290,7 @@ function AddClientPage(): JSX.Element {
                        id={'phone'}
                        type={'phone'}
                        placeholder={'+7 910 777 77 77'}
+                       defaultValue={parentInfo ? parentInfo.phone : ''}
                        required onChange={handleInputChange}/>
             </div>
             <div className={`inputSection inputSectionAddClient`}>
@@ -238,8 +300,9 @@ function AddClientPage(): JSX.Element {
                 <input className={`input addClientInput`}
                        name={'orderNumber'}
                        id={'orderNumber'}
-                       type={'number'}
+                       type={'text'}
                        placeholder={'1341247'}
+                       defaultValue={parentInfo ? parentInfo.orderNumber : ''}
                        required onChange={handleInputChange}/>
             </div>
             <div className={`inputSection inputSectionAddClient`}>
@@ -262,7 +325,7 @@ function AddClientPage(): JSX.Element {
                        id={'created'}
                        type={'date'}
                        max={today}
-                       defaultValue={today}
+                       defaultValue={parentInfo ? createdDate.toISOString().substr(0, 10) : today}
                        required onChange={handleInputChange}/>
             </div>
             <button className={'button addClientFormButton'}>Добавить клиента</button>
