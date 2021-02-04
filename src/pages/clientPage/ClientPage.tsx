@@ -129,7 +129,7 @@ function ClientPage(): JSX.Element {
             })
             .catch(err => {
                 setIsClientSubsLoading(false);
-                alert(err);
+                setLoginRedirect(true);
             })
     }, [id])
 

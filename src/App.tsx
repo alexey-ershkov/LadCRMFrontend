@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.scss';
 import Navbar from "./navbar/Navbar";
 import MainPage from "./pages/main/MainPage";
@@ -16,8 +16,18 @@ import ModifyClientInfoPage from './pages/modifyClientInfo/ModifyClientInfoPage'
 import AddAccountPage from "./pages/addAccountPage/addAccountPage";
 import AccountsPage from "./pages/accountsPage/accountsPage";
 import LoginPage from "./pages/loginPage/loginPage";
+import ping from "./api/utils/ping";
 
 function App() {
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            ping()
+                .catch()
+        }, 60 * 1000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div>
             <Navbar/>
