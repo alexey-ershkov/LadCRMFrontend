@@ -9,6 +9,10 @@ import saveSubVisit from "../../api/sub/saveSubVisit";
 import SubVisit from "../../models/subVisit";
 import addToArchive from "../../api/sub/archiveSub";
 import addVisitToSub from "../../api/sub/addVisitToSub";
+import removeSubVisit from "../../api/sub/removeVisitFromSub";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import deleteSubFromArchive from "../../api/sub/deleteSubFromArchive";
 
 interface params {
     id: string
@@ -18,12 +22,49 @@ function SubPage(): JSX.Element {
     const [subInfo, setSubInfo] = useState<Subscription | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
     const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
+    const [redirect, setRedirect] = useState<boolean>(false);
+
+    const handleDelete = () => {
+        const isDelete = window.confirm('Удалить абонемент? Операция необратима')
+        if (!isDelete) {
+            return
+        }
+
+        deleteSubFromArchive(id)
+            .then(() => {
+                setRedirect(true);
+            })
+            .catch(err => {
+                alert(err);
+            })
+    }
 
     const handleAddVisit = (event: FormEvent) => {
         event.preventDefault();
         setIsLoading(true);
 
         addVisitToSub(id)
+            .then(() => {
+                setIsLoading(false);
+                getSubInfo(id)
+                    .then(data => {
+                        setSubInfo(data);
+                    })
+                    .catch(err => {
+                        alert(err);
+                    })
+            })
+            .catch(err => {
+                setIsLoading(false);
+                alert(err);
+            })
+    }
+
+    const handleRemoveVisit = (event: FormEvent) => {
+        event.preventDefault();
+        setIsLoading(true);
+
+        removeSubVisit(id)
             .then(() => {
                 setIsLoading(false);
                 getSubInfo(id)
@@ -66,7 +107,7 @@ function SubPage(): JSX.Element {
             })
     }
 
-    const handleArchiveAdd =  (event: FormEvent) => {
+    const handleArchiveAdd = (event: FormEvent) => {
         event.preventDefault();
         setIsLoading(true);
 
@@ -119,6 +160,10 @@ function SubPage(): JSX.Element {
         return <Redirect to={'/login'}/>
     }
 
+    if (redirect) {
+        return <Redirect to={`/client/${subInfo?.client._id}`}/>
+    }
+
     if (subInfo !== undefined) {
 
         const dateFrom = new Date(subInfo.dateFrom);
@@ -131,7 +176,7 @@ function SubPage(): JSX.Element {
         return (<div className={'clientContainer'}>
             <div className={'subscription'}>
                 <div className={'subscriptionTitle'}>
-                     <div>{subInfo.subInfo.subName}</div>
+                    <div>{subInfo.subInfo.subName}</div>
                 </div>
                 <div className={'subscriptionInfo'}>
                     <div className={'mainInfo'}>
@@ -147,7 +192,8 @@ function SubPage(): JSX.Element {
                         </div>
                         {subInfo.lastVisited &&
                         <div className={'subscriptionTo clientMainPart'}>
-                            <p className={'clientMainTitle'}>Последнее посещение: </p>  {lastVisited.toLocaleDateString()}
+                            <p className={'clientMainTitle'}>Последнее
+                                посещение: </p>  {lastVisited.toLocaleDateString()}
                         </div>
                         }
                     </div>
@@ -182,12 +228,28 @@ function SubPage(): JSX.Element {
                             Зарегистрировать посещение по абонементу
                         </button>
                     </form>
+
                 }
-                <form className={'subscriptionClientInfo'}  onSubmit={handleAddVisit}>
-                    <button className={'button regVisitButton'}>
-                        Добавить занятие к абонементу
-                    </button>
-                </form>
+
+                {subInfo.isArchived &&
+                    <FontAwesomeIcon icon={faTimes} className={'deleteSub'} onClick={handleDelete}/>
+                }
+
+                {!subInfo.isArchived &&
+                <div className={'subscriptionClientInfo'}>
+                    <form className={'addAndRemoveButtons'} onSubmit={handleAddVisit}>
+                        <button className={'button addAndRemoveButton'}>
+                            Добавить занятие
+                        </button>
+                    </form>
+                    <form className={'addAndRemoveButtons'} onSubmit={handleRemoveVisit}>
+                        <button className={'button addAndRemoveButton'}>
+                            Списать занятие
+                        </button>
+                    </form>
+                </div>
+                }
+
                 <form className={'subscriptionClientInfo'} onSubmit={handleArchiveAdd}>
                     <button className={'button regVisitButton'}>
                         {!subInfo.isArchived ? "Архивировать" : "Вернуть из архива"}
