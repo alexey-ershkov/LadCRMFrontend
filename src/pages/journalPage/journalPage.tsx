@@ -32,7 +32,7 @@ function JournalPage(): JSX.Element {
     useEffect(() => {
         if (searchData === '') {
             getJournal(currPage)
-                .then((data:BackendData) => {
+                .then((data: BackendData) => {
                     setJournal(data.journal);
                     setPageCount(data.pages);
                     setIsLoading(false);
@@ -43,7 +43,7 @@ function JournalPage(): JSX.Element {
                 })
         } else {
             journalSearch(searchData, currPage)
-                .then((data:BackendSearchData) => {
+                .then((data: BackendSearchData) => {
                     setJournal(data.found);
                     setPageCount(data.pages);
                     setIsLoading(false);
@@ -68,7 +68,7 @@ function JournalPage(): JSX.Element {
 
     if (journal.length === 0) {
         return (<div className={'journalContainer'}>
-            <SearchBar searchDataUpdater={setSearchData} />
+            <SearchBar searchDataUpdater={setSearchData}/>
             <div className={'notFoundTitle'}>
                 Ничего не найдено
             </div>
@@ -84,7 +84,8 @@ function JournalPage(): JSX.Element {
         <div className={'journalCardContainer'}>
             <div className={'innerJournalCardContainer'}>
                 {journal.map((journalElem: Journal) => {
-                    return <JournalCard key={journalElem._id} elem={journalElem}/>
+                    return <JournalCard key={journalElem._id} elem={journalElem} updater={setJournal}
+                                        pageUpdater={setPageCount}/>
                 })}
             </div>
         </div>

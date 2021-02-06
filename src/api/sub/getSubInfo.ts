@@ -12,11 +12,11 @@ export default async function getSubInfo(id: string):Promise<any> {
                     .then(data => {
                         resolve(data);
                     })
-                    .catch( err => {
-                        reject(`Can't parse response: ${err}`);
+                    .catch( () => {
+                        reject(res.status);
                     })
             } else {
-                reject(res.statusText)
+                reject(res.status)
             }
         })
             .catch(err => {

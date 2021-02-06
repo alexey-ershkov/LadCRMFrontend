@@ -141,9 +141,11 @@ function SubPage(): JSX.Element {
                 setSubInfo(data);
                 setIsLoading(false);
             })
-            .catch(err => {
+            .catch(statusCode => {
                 setIsLoading(false);
-                setLoginRedirect(true);
+                if (statusCode !== 200) {
+                    setLoginRedirect(true);
+                }
             })
     }, [id])
 
@@ -259,8 +261,8 @@ function SubPage(): JSX.Element {
         </div>)
     }
 
-    return (<div>
-        Inner error
+    return (<div className={'notFoundTitle'}>
+       Абонемент удален
     </div>)
 }
 

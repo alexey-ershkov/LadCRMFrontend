@@ -1,6 +1,8 @@
 @import "src/scss/vars";
 
 .cardContainer {
+  position: relative;
+
   width: 90%;
   height: 7vh;
   margin: 1vh 0;
@@ -42,6 +44,10 @@
   font-weight: 500;
 }
 
+.deleteVisit {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 810px) {
   .cardContainer {
     height: 13vh;
@@ -56,6 +62,7 @@
     text-align: left;
   }
 
+
   .journalCardInfo {
     width: 90%;
     text-align: left;
@@ -64,5 +71,11 @@
   .journalCardDate {
     width: 90%;
     text-align: left;
+  }
+  .deleteVisit {
+    position: absolute;
+    top: 2.5vh;
+    right: 2.5vh;
+
   }
 }
