@@ -1,9 +1,24 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './SettingsPage.scss';
 import {Link, Redirect} from "react-router-dom";
 import '../../scss/button.scss'
+import checkAuth from "../../api/utils/checkAuth";
 
 function Settings():JSX.Element {
+
+    const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        checkAuth()
+            .catch(() => {
+                setLoginRedirect(true);
+            })
+    }, [])
+
+    if (loginRedirect) {
+        return <Redirect to={'/login'}/>
+    }
 
     return (<div className={'settingsWrapper'}>
         <Link className={'button addButton'} to={'/addSubType'}>

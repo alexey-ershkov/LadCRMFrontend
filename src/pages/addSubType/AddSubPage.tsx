@@ -9,6 +9,7 @@ import {Redirect, useHistory} from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
 import getSubType from "../../api/sub/getSubType";
+import checkAuth from "../../api/utils/checkAuth";
 
 function AddSubPage(): JSX.Element {
     const [typeInfo, setTypeInfo] = useState<SubType | undefined>(undefined)
@@ -38,7 +39,14 @@ function AddSubPage(): JSX.Element {
                     setLoginRedirect(true);
                 })
         }
-    }, [modifyId])
+    }, [modifyId]);
+
+    useEffect(() => {
+        checkAuth()
+            .catch(() => {
+                setLoginRedirect(true);
+            })
+    }, [])
 
 
     const handleCheck = () => {

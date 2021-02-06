@@ -232,7 +232,7 @@ export default function ModifyClientInfoPage(): JSX.Element {
                        placeholder={'1341247'}
                        required onChange={handleInputChange}/>
             </div>
-            <button className={'button addClientFormButton'}>Изменть данные клиента</button>
+            <button className={'button addClientFormButton'}>Изменить данные клиента</button>
         </form>
     </div>)
 }

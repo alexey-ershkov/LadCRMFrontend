@@ -7,6 +7,7 @@ import consts from "../../consts";
 import saveAccount from "../../api/account/saveAcoount";
 import getAccountById from "../../api/account/getAccountById";
 import Account from "../../models/account";
+import checkAuth from "../../api/utils/checkAuth";
 
 export default function AddAccountPage(): JSX.Element {
     const [loading, setLoading] = useState(false)
@@ -32,7 +33,14 @@ export default function AddAccountPage(): JSX.Element {
                     setLoginRedirect(true);
                 })
         }
-    }, [modifyId])
+    }, [modifyId]);
+
+    useEffect(() => {
+        checkAuth()
+            .catch(() => {
+                setLoginRedirect(true);
+            })
+    }, [])
 
 
     const [redirect, setRedirect] = useState(false)

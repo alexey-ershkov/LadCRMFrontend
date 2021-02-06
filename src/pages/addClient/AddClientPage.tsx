@@ -11,6 +11,7 @@ import consts from "../../consts";
 import checkClientUuid from "../../api/client/checkUuid";
 import getClientById from "../../api/client/getClientById";
 import addChild from "../../api/client/addChild";
+import checkAuth from "../../api/utils/checkAuth";
 
 const today = new Date().toISOString().split("T")[0];
 
@@ -40,6 +41,13 @@ function AddClientPage(): JSX.Element {
                 })
         }
     }, [parentId])
+
+    useEffect(() => {
+        checkAuth()
+            .catch(() => {
+                setLoginRedirect(true);
+            })
+    }, [])
 
 
     const handleCheck = () => {

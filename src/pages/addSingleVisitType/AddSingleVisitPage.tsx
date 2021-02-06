@@ -11,6 +11,7 @@ import consts from "../../consts";
 import SingleVisitType from "../../models/singleVisitType";
 import saveSingleVisitType from "../../api/singleVisit/saveSingleVisitType";
 import getSingleVisitType from "../../api/singleVisit/getSingleVisitType";
+import checkAuth from "../../api/utils/checkAuth";
 
 function AddSingleVisitPage(): JSX.Element {
     const [loading, setLoading] = useState(false)
@@ -40,6 +41,13 @@ function AddSingleVisitPage(): JSX.Element {
 
     const [redirect, setRedirect] = useState(false)
 
+
+    useEffect(() => {
+        checkAuth()
+            .catch(() => {
+                setLoginRedirect(true);
+            })
+    }, [])
 
     const handleCallback = () => {
         let form = document.getElementById('addSingleVisitForm') as HTMLFormElement;
