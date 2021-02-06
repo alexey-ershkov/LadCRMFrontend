@@ -24,7 +24,7 @@ function App() {
         const interval = setInterval(() => {
             ping()
                 .catch()
-        }, 60 * 1000);
+        }, 15 * 60 * 1000);
         return () => clearInterval(interval);
     }, []);
 
