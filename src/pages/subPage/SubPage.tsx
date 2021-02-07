@@ -237,7 +237,7 @@ function SubPage(): JSX.Element {
                     <FontAwesomeIcon icon={faTimes} className={'deleteSub'} onClick={handleDelete}/>
                 }
 
-                {!subInfo.isArchived &&
+                {!subInfo.isArchived && !subInfo.isInfinite &&
                 <div className={'subscriptionClientInfo'}>
                     <form className={'addAndRemoveButtons'} onSubmit={handleAddVisit}>
                         <button className={'button addAndRemoveButton'}>

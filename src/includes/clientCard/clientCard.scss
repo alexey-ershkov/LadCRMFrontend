@@ -42,19 +42,27 @@
 
 .orderNumber {
   display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 80%;
+}
+
+.orderNumberInfo {
+  display: flex;
   align-items: center;
   justify-content: flex-start;
-  height: 50%;
 }
 
 .title {
+  margin: 0.5vh 0;
   color: $sub-accent-color;
 }
 
 @media screen and (max-width: 1000px) {
   .clientCard {
     flex-direction: column;
-    height: 12vh;
+    height: 20vh;
     align-items: center;
     padding: 2vh;
     width: 85%;
@@ -80,5 +88,9 @@
 
   .title {
     margin: 0;
+  }
+
+  .orderNumber {
+    flex-direction: column;
   }
 }

@@ -55,7 +55,16 @@ function parseDate(dateString: string): string {
     return `${day}.${month}.${year} в ${hour}:${minutes}`;
 }
 
-function InnerCard({updater,pageUpdater, visitId, name, visitInfo, parsedDateAndTime, personId, subId}: InnerCardProps): JSX.Element {
+function InnerCard({
+                       updater,
+                       pageUpdater,
+                       visitId,
+                       name,
+                       visitInfo,
+                       parsedDateAndTime,
+                       personId,
+                       subId
+                   }: InnerCardProps): JSX.Element {
 
     const handleDelete = () => {
         const deleteVisitConf = window.confirm('Удалить посещение?');
@@ -100,7 +109,7 @@ function JournalCard({elem, updater, pageUpdater}: CardProps): JSX.Element {
             personId={elem.subInfo!.client._id}
             subId={elem.subInfo!._id}
             name={`${elem.subInfo!.client.surname} ${elem.subInfo!.client.name}`}
-            visitInfo={`Абонемент ${elem.subInfo!.subInfo.subName}, ${elem.subInfo!.subInfo.visitsCount}`}
+            visitInfo={`Абонемент ${elem.subInfo!.subInfo.subName} ${elem.subInfo?.isInfinite ? "" : ", " + elem.subInfo!.subInfo.visitsCount}`}
             parsedDateAndTime={parseDate(elem.visitTime)}/>
     } else {
         return <InnerCard
