@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './ClientPage.scss';
-import {Link, Redirect, useParams} from 'react-router-dom'
+import {Link, Redirect, useHistory, useParams} from 'react-router-dom'
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
 import getClientById from "../../api/client/getClientById";
@@ -37,6 +37,10 @@ function ClientPage(): JSX.Element {
     const [loginRedirect, setLoginRedirect] = useState<boolean>(false);
 
     let {id} = useParams<params>();
+
+    const history = useHistory();
+    const params = new URLSearchParams(history.location.search);
+    const isSearch = params.get('search');
 
 
     const handleSingleVisitOrder = () => {
@@ -132,6 +136,10 @@ function ClientPage(): JSX.Element {
                 setLoginRedirect(true);
             })
     }, [id])
+
+    if (clientSubs.length === 1 && isSearch) {
+        return <Redirect to={`/subscription/${clientSubs[0]._id}`}/>
+    }
 
     if (isLoading) {
         return (

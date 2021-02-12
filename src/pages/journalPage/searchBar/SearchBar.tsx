@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import './SearchBar.scss';
 import '../../../scss/button.scss';
 
@@ -13,16 +13,19 @@ function SearchBar({searchDataUpdater}:SearchBarProps): JSX.Element {
         searchDataUpdater(searchInput.value);
     }
 
-    const searchInput = document.getElementById('journalSearch') as HTMLInputElement
+    const searchInputRef = useRef<HTMLInputElement>(null);
     useEffect(() => {
-        if (searchInput) {
-            searchInput.value = ''
+        if (searchInputRef.current) {
+            searchInputRef.current.focus();
         }
-    }, [searchInput])
+    }, [])
+
 
     return (
         <div className={'journalSearchBar'}>
-            <input className={'journalSearch'} id={'journalSearch'} placeholder={'Введите имя клиента или название посещения'}
+            <input className={'journalSearch'} id={'journalSearch'}
+                   ref={searchInputRef}
+                   placeholder={'Введите имя клиента или название посещения'}
                    onChange={handleSearchInput}/>
         </div>
     )

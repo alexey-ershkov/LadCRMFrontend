@@ -1,7 +1,7 @@
 import React, {useState, useEffect, FormEvent} from "react";
 import './SubPage.scss';
 import Subscription from "../../models/subscription";
-import {useParams, Link, Redirect} from "react-router-dom";
+import {useParams, Link, Redirect, useHistory} from "react-router-dom";
 import getSubInfo from "../../api/sub/getSubInfo";
 import PulseLoader from "react-spinners/PulseLoader";
 import consts from "../../consts";
@@ -163,7 +163,7 @@ function SubPage(): JSX.Element {
     }
 
     if (redirect) {
-        return <Redirect to={`/client/${subInfo?.client._id}`}/>
+        return <Redirect to={`/`}/>
     }
 
     if (subInfo !== undefined) {

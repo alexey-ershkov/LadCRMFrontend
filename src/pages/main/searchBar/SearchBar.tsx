@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import './SearchBar.scss';
 import '../../../scss/button.scss'
 import {Link} from "react-router-dom";
@@ -13,6 +13,7 @@ interface SearchBarProps {
 
 function SearchBar({clientsUpdater,  isSubsChanger}: SearchBarProps): JSX.Element {
 
+    const searchInputRef = useRef<HTMLInputElement>(null);
 
     const searchInput = document.getElementById('search') as HTMLInputElement
     const handleSearchInput = () => {
@@ -52,12 +53,17 @@ function SearchBar({clientsUpdater,  isSubsChanger}: SearchBarProps): JSX.Elemen
     useEffect(() => {
         if (searchInput) {
             searchInput.value = ''
+            if (searchInputRef.current) {
+                searchInputRef.current.focus();
+            }
         }
     }, [searchInput])
 
     return (
         <div className={'searchBar'}>
-            <input className={'search'} id={'search'} placeholder={'Введите номер абонемента или ФИО'}
+            <input className={'search'} id={'search'}
+                   ref={searchInputRef}
+                   placeholder={'Введите номер абонемента или ФИО'}
                    onChange={handleSearchInput}/>
             <Link className={'button addClientButton'} to={'addClient'}>
                 Добавить клиента

@@ -23,7 +23,7 @@ function MainPage(): JSX.Element {
                 setLoading(false);
             }
         )
-            .catch(err => {
+            .catch(() => {
                 setLoading(false);
                 setLoginRedirect(true);
             })
@@ -45,7 +45,7 @@ function MainPage(): JSX.Element {
 
     if (isSubs) {
         if (clients.length === 1) {
-            return <Redirect to={`/client/${clients[0]._id}`}/>
+            return <Redirect to={`/client/${clients[0]._id}?search=true`}/>
         }
     }
     return (

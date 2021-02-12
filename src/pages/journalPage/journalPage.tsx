@@ -46,6 +46,10 @@ function JournalPage(): JSX.Element {
                 .then((data: BackendSearchData) => {
                     setJournal(data.found);
                     setPageCount(data.pages);
+                    console.log(data.pages, currPage)
+                    if (currPage > pageCount) {
+                        setCurrPage(1);
+                    }
                     setIsLoading(false);
                 })
                 .catch(err => {
@@ -53,7 +57,7 @@ function JournalPage(): JSX.Element {
                     setLoginRedirect(true);
                 })
         }
-    }, [currPage, searchData])
+    }, [currPage, searchData, pageCount])
 
     if (isLoading) {
         return (
